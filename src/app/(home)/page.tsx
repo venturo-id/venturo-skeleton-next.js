@@ -1,35 +1,17 @@
 import type { Metadata } from 'next';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-
-import { CONFIG } from 'src/global-config';
+import { HomeView } from 'src/sections/_home/view/home-view';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: CONFIG.appName };
+export const metadata: Metadata = {
+  title: 'Jasa Outsourcing Programmer Malang | Software House Venturo',
+  description:
+    'Venturo adalah jasa outsource programmer terbesar di Malang dengan 130+ talenta dedicated team. Garansi 30 hari, supervisor berpengalaman, laporan progres mingguan. Konsultasi gratis.',
+  keywords:
+    'outsourcing programmer malang,software house malang,jasa pembuatan software,dedicated team',
+};
 
 export default function Page() {
-  return (
-    <Container sx={{ py: 10, minHeight: 560, textAlign: 'center' }}>
-      <Typography variant="h2" sx={{ mb: 2 }}>
-        {CONFIG.appName}
-      </Typography>
-
-      <Typography sx={{ mb: 5, color: 'text.secondary' }}>
-        Clean starter. Build your pages from here.
-      </Typography>
-
-      <Box sx={{ gap: 2, display: 'flex', justifyContent: 'center' }}>
-        <Button href="/components" variant="contained">
-          Components
-        </Button>
-        <Button href="/blank" variant="outlined">
-          Blank page
-        </Button>
-      </Box>
-    </Container>
-  );
+  return <HomeView />;
 }

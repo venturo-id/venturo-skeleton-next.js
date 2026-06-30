@@ -29,7 +29,8 @@ export const pageLinks = [
 
 export const navData = [
   { title: 'Home', path: '/' },
-  { title: 'Components', path: paths.components },
-  { title: 'Blank', path: paths.blank },
-  { title: 'Docs', path: paths.docs },
+  { title: 'About', path: '#' },
+  { title: 'Jakarta Clients', path: '#' },
+  { title: 'Ai Project', path: '#' },
+  { title: 'Career', path: '#' },
 ];
