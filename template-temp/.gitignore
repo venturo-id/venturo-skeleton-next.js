@@ -1,0 +1,7 @@
+# Local backups (pre-edit snapshots, not for deploy)
+*.metadesc-bak
+*.bak
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store

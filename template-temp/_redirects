@@ -1,0 +1,4 @@
+# Netlify redirects — venturo.id
+/index.html                              /                                 301!
+/professional-programmer-kota-malang     /                                 301
+/professional-programmer-kota-malang/    /                                 301

@@ -1,0 +1,17 @@
+# venturo.id — static Figma Sites mirror (nginx).
+# Build & run: docker compose up -d --build
+# Akses: http://localhost:8080
+services:
+  web:
+    build: .
+    image: venturo-id-static
+    container_name: venturo-id
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/robots.txt"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
