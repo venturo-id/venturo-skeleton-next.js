@@ -1,58 +1,32 @@
-# Venturo Skeleton Next.js
+## Prerequisites
 
-Template dasar (skeleton) proyek **Next.js** untuk Venturo. Repo ini menjadi titik awal pengembangan aplikasi baru agar struktur, konvensi, dan tooling konsisten antar proyek.
+- Node.js >=22 (Recommended)
 
-> Template version: **default-4.6.0**
+## Installation
 
-## Prasyarat
+**Using Yarn (Recommended)**
 
-- [Node.js](https://nodejs.org/) 18 LTS atau lebih baru
-- Package manager: `npm`, `pnpm`, atau `yarn`
+```sh
+yarn install
+yarn dev
+```
 
-## Memulai
+**Using Npm**
 
-```bash
-# install dependency
-npm install
-
-# jalankan development server
+```sh
+npm i
 npm run dev
 ```
 
-Buka [http://localhost:3000](http://localhost:3000) di browser.
+## Build
 
-## Script
-
-| Perintah        | Keterangan                          |
-| --------------- | ----------------------------------- |
-| `npm run dev`   | Menjalankan server development      |
-| `npm run build` | Build aplikasi untuk production     |
-| `npm run start` | Menjalankan hasil build production  |
-| `npm run lint`  | Menjalankan linter                  |
-
-## Struktur Proyek
-
-```
-.
-├── app/            # routing & halaman (App Router)
-├── components/     # komponen UI reusable
-├── lib/            # helper, util, dan konfigurasi
-├── public/         # aset statis
-└── README.md
+```sh
+yarn build
+# or
+npm run build
 ```
 
-## Konfigurasi Environment
+---
 
-Salin `.env.example` menjadi `.env.local` lalu sesuaikan nilainya:
-
-```bash
-cp .env.example .env.local
-```
-
-## Deployment
-
-Aplikasi di-deploy melalui pipeline Venturo (Jenkins + Kubernetes). Pastikan build lulus sebelum push ke branch rilis.
-
-## Lisensi
-
-Internal — Venturo.
+**NOTE:**
+_When copying folders remember to also copy hidden files like .env. This is important because .env files often contain environment variables that are crucial for the application to run correctly._
