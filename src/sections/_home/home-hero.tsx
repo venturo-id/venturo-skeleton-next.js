@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
 
@@ -82,22 +83,6 @@ export function HomeHero() {
                 {HERO.cta}
               </Button>
             </Box>
-
-            <Box component={m.div} variants={varFade('inUp')} sx={{ display: 'flex', gap: 5 }}>
-              {HERO.stats.map((stat) => (
-                <Box key={stat.label}>
-                  <Box sx={{ display: 'flex', alignItems: 'baseline', color: 'primary.main' }}>
-                    <AnimateCountUp to={stat.value} sx={{ typography: 'h2' }} />
-                    <Typography component="span" variant="h3">
-                      {stat.suffix}
-                    </Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {stat.label}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
           </MotionViewport>
 
           <Box
@@ -108,12 +93,64 @@ export function HomeHero() {
             transition={{ duration: 0.6 }}
             sx={{ flex: 1, width: 1 }}
           >
-            <Image
-              alt={HERO.title}
-              src={asset('tim-programmer-venturo-malang-2025.png')}
-              ratio="4/3"
-              sx={{ borderRadius: 2, boxShadow: (theme) => theme.customShadows.z16 }}
-            />
+            <Box sx={{ width: 1, position: 'relative' }}>
+              <Box
+                aria-hidden
+                sx={{
+                  inset: 0,
+                  borderRadius: 3,
+                  position: 'absolute',
+                  bgcolor: 'primary.lighter',
+                  transform: 'translate(16px, 16px)',
+                }}
+              />
+              <Image
+                alt={HERO.title}
+                src={asset('hero-team.jpg')}
+                ratio="16/9"
+                sx={{
+                  position: 'relative',
+                  borderRadius: 3,
+                  boxShadow: (theme) => theme.customShadows.z16,
+                }}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                mt: 4,
+                gap: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {HERO.stats.map((stat, index) => (
+                <Fragment key={stat.label}>
+                  {index > 0 && (
+                    <Box sx={{ width: '1px', alignSelf: 'stretch', bgcolor: 'divider' }} />
+                  )}
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Box
+                      sx={{
+                        color: 'primary.main',
+                        display: 'flex',
+                        alignItems: 'baseline',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <AnimateCountUp to={stat.value} sx={{ typography: 'h2' }} />
+                      <Typography component="span" variant="h3">
+                        {stat.suffix}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {stat.label}
+                    </Typography>
+                  </Box>
+                </Fragment>
+              ))}
+            </Box>
           </Box>
         </Box>
       </Container>

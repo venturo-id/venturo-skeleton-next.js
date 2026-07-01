@@ -19,7 +19,7 @@ export const HERO = {
   cta: 'Mulai Konsultasi',
   stats: [
     { value: 130, suffix: '+', label: 'Dedicated IT experts' },
-    { value: 250, suffix: '+', label: 'Successful Projects' },
+    { value: 100, suffix: '+', label: 'Successful Projects' },
   ],
   trustedLabel: 'Dipercaya Oleh:',
 };
@@ -51,7 +51,8 @@ export const CLIENTS: { name: string; logo: string }[] = [
 export const PROBLEM = {
   caption: 'The Problem',
   title: 'Proyek IT Anda Bermasalah?',
-  image: asset('ilustrasi-masalah-proyek-it.png'),
+  // TODO: user akan kirim foto "stressed man" → taruh di public/assets/venturo/problem-stress.jpg
+  image: asset('problem-stress.jpg'),
   items: [
     {
       title: 'Kesulitan Menemukan Programmer yang Tepat',
@@ -80,6 +81,7 @@ export const PROBLEM = {
 export const SOLUTION = {
   caption: 'Stress-Free Solutions',
   title: 'Solusi Tanpa Drama untuk Proyek IT Anda',
+  image: asset('tim-expert-programmers.jpg'),
   items: [
     {
       title: 'Tim yang Berdedikasi',
@@ -123,10 +125,14 @@ export const FOCUS = {
     'Venturo, jasa pembuatan software house Malang, siap membantu dengan programmer profesional yang bekerja seolah tim in-house Anda sendiri.',
   highlight: 'Tim IT Khusus Anda',
   image: asset('diagram-outsourcing-tim-it-venturo.png'),
-  points: [
-    'Squad full-time yang fokus pada proyek Anda',
-    'Didampingi supervisor & project manager',
-    'Transparan dengan laporan progres mingguan',
+  roles: [
+    'Project Manager',
+    'System Analyst',
+    'UI/UX Designer',
+    'Programmer / Developer',
+    'Quality Assurance (QA)',
+    'Automation Test Engineer',
+    'Technical Documentation',
   ],
 };
 
@@ -136,7 +142,7 @@ export const MANAGEMENT = {
   caption: 'We Already Have a Good Management',
   title: 'Manajemen Proyek yang Sudah Teruji',
   description: 'Jasa outsourcing programmer, perusahaan IT di Malang terbaik.',
-  image: asset('diagram-outsourcing-venturo.png'),
+  phone: asset('app-phone.png'),
   items: [
     {
       title: 'Roadmap untuk Timeline Planning',
@@ -180,15 +186,23 @@ export const MANAGEMENT = {
 // ----------------------------------------------------------------------
 
 export const RESOURCE = {
-  caption: 'The Largest Programmer Resource in Malang',
   titleLines: ['The Largest', 'Programmer Resource', 'in Malang'],
   description:
     'Cari programmer terbaik di Malang? Venturo menghadirkan the largest programmer resource in Malang untuk kebutuhan outsourcing dan pengembangan software skala besar.',
-  promo:
-    '50% OFF hiring fee khusus hingga 31 Mei 2026 — siap menyelesaikan proyek IT Anda tanpa drama!',
+  videoUrl: 'https://www.youtube.com/watch?v=1W35KcCQqww',
+  videoThumb: 'https://img.youtube.com/vi/1W35KcCQqww/maxresdefault.jpg',
+  videoLabel: 'Supervisor & Project Manager',
+};
+
+// ----------------------------------------------------------------------
+
+export const SPECIAL_OFFER = {
+  heading: 'SPECIAL OFFER!!',
+  promoStrong: '50% OFF hiring fee',
+  promo: 'khusus hingga 31 Mei 2026, siap menyelesaikan proyek IT Anda tanpa drama!',
   cta: 'Hubungi Kami Sekarang',
-  ctaNote: 'Konsultasi gratis untuk kebutuhan bisnis Anda',
-  image: asset('ilustrasi-pertumbuhan-bisnis.png'),
+  note: 'Konsultasi gratis untuk kebutuhan bisnis Anda',
+  image: asset('person-arms.png'),
 };
 
 // ----------------------------------------------------------------------
@@ -273,9 +287,11 @@ export const FAQS = {
 // ----------------------------------------------------------------------
 
 export const CLOSING_CTA = {
-  caption: 'Garansi 30 Hari',
-  title: 'Bebas Bug Kritis, atau Kami Perbaiki Tanpa Biaya Tambahan',
+  title: 'Garansi Bug Setelah Project Selesai',
+  descriptionStrong: '30 Hari Tanpa Biaya Tambahan',
   description:
-    'Kami pastikan sistem bebas dari bug kritis pasca serah terima. Jika Anda serius, tim kami siap mendukung dari awal hingga selesai.',
+    'Kami pastikan sistem bebas dari bug kritis pasca serah terima, dengan garansi perbaikan hingga',
+  descriptionEnd: 'Jika Anda serius maka tim kami siap mendukung dari awal hingga selesai.',
   cta: 'Mulai Konsultasi',
+  image: asset('person-laptop.png'),
 };

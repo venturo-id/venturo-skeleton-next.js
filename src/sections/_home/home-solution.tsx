@@ -1,7 +1,6 @@
 'use client';
 
 import { m } from 'framer-motion';
-import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -11,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SOLUTION } from './home-data';
-import { HomeHeading } from './home-heading';
 
 // ----------------------------------------------------------------------
 
@@ -19,64 +17,50 @@ export function HomeSolution() {
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.neutral' }}>
       <Container>
-        <HomeHeading caption={SOLUTION.caption} title={SOLUTION.title} />
+        <Card sx={{ overflow: 'hidden', boxShadow: (theme) => theme.customShadows.z16 }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
+            <Box sx={{ flex: 1, p: { xs: 4, md: 6 } }}>
+              <Typography variant="h3" sx={{ mb: { xs: 3, md: 5 } }}>
+                {SOLUTION.caption}
+              </Typography>
 
-        <MotionViewport
-          sx={{
-            gap: 3,
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-            },
-          }}
-        >
-          {SOLUTION.items.map((item) => (
-            <Card
-              key={item.title}
-              component={m.div}
-              variants={varFade('inUp')}
-              sx={{
-                p: 4,
-                height: 1,
-                textAlign: 'center',
-                transition: (theme) => theme.transitions.create(['box-shadow', 'transform']),
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: (theme) => theme.customShadows.z16,
-                },
-              }}
-            >
+              <MotionViewport sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {SOLUTION.items.map((item) => (
+                  <Box
+                    component={m.div}
+                    variants={varFade('inUp')}
+                    key={item.title}
+                    sx={{ gap: 2, display: 'flex' }}
+                  >
+                    <Box
+                      component="img"
+                      alt={item.title}
+                      src={item.icon}
+                      sx={{ width: 44, height: 44, flexShrink: 0, objectFit: 'contain' }}
+                    />
+                    <Box>
+                      <Typography variant="subtitle1" sx={{ color: 'primary.main' }}>
+                        {item.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ mt: 0.25, color: 'text.secondary' }}>
+                        {item.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))}
+              </MotionViewport>
+            </Box>
+
+            <Box sx={{ flex: 1, position: 'relative', minHeight: { xs: 320, md: 'auto' } }}>
               <Box
-                sx={{
-                  width: 88,
-                  height: 88,
-                  mx: 'auto',
-                  mb: 3,
-                  display: 'grid',
-                  borderRadius: '50%',
-                  placeItems: 'center',
-                  bgcolor: (theme) => varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-                }}
-              >
-                <Box
-                  component="img"
-                  alt={item.title}
-                  src={item.icon}
-                  sx={{ width: 48, height: 48, objectFit: 'contain' }}
-                />
-              </Box>
-
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                {item.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {item.description}
-              </Typography>
-            </Card>
-          ))}
-        </MotionViewport>
+                component="img"
+                alt={SOLUTION.caption}
+                src={SOLUTION.image}
+                sx={{ inset: 0, width: 1, height: 1, position: 'absolute', objectFit: 'cover' }}
+              />
+            </Box>
+          </Box>
+        </Card>
       </Container>
     </Box>
   );

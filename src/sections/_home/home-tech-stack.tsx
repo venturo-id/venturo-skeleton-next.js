@@ -1,75 +1,81 @@
 'use client';
 
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
+import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
-import { HomeHeading } from './home-heading';
 import { asset, TECH_STACK } from './home-data';
+import { HomeHeading } from './home-heading';
 
 // ----------------------------------------------------------------------
 
-export function HomeTechStack() {
-  const [tab, setTab] = useState(0);
+type Group = (typeof TECH_STACK.groups)[number];
 
-  const group = TECH_STACK.groups[tab];
+function Category({ group }: { group: Group }) {
+  return (
+    <Box>
+      <Divider sx={{ mb: { xs: 4, md: 5 } }}>
+        <Typography variant="h6" sx={{ px: 1, color: 'primary.main' }}>
+          {group.label}
+        </Typography>
+      </Divider>
+
+      <Box
+        sx={{
+          px: 2,
+          rowGap: { xs: 4, md: 5 },
+          columnGap: { xs: 4, md: 6 },
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {group.logos.map((logo) => (
+          <Box
+            key={logo}
+            component="img"
+            alt={logo}
+            src={asset(logo)}
+            sx={{
+              maxWidth: 160,
+              maxHeight: 32,
+              objectFit: 'contain',
+              transition: (theme) => theme.transitions.create('transform'),
+              '&:hover': { transform: 'scale(1.08)' },
+            }}
+          />
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+export function HomeTechStack() {
+  const [web, mobile, ui] = TECH_STACK.groups;
 
   return (
-    <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.neutral' }}>
+    <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
       <Container>
-        <HomeHeading caption={TECH_STACK.caption} title={TECH_STACK.title} />
+        <HomeHeading
+          title={TECH_STACK.caption}
+          description="Stack modern dan teruji yang kami gunakan untuk membangun produk digital Anda."
+        />
 
-        <Tabs
-          value={tab}
-          onChange={(_, value) => setTab(value)}
-          variant="scrollable"
-          scrollButtons={false}
-          sx={{
-            mb: 5,
-            justifyContent: 'center',
-            '& .MuiTabs-flexContainer': { justifyContent: 'center' },
-          }}
-        >
-          {TECH_STACK.groups.map((item) => (
-            <Tab key={item.label} label={item.label} />
-          ))}
-        </Tabs>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 6, md: 9 } }}>
+          <Category group={web} />
 
-        <Box
-          sx={{
-            gap: 3,
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: 'repeat(2, 1fr)',
-              sm: 'repeat(3, 1fr)',
-              md: 'repeat(6, 1fr)',
-            },
-          }}
-        >
-          {group.logos.map((logo) => (
-            <Box
-              key={logo}
-              sx={{
-                p: 2.5,
-                height: 100,
-                display: 'grid',
-                borderRadius: 2,
-                placeItems: 'center',
-                bgcolor: 'background.paper',
-                boxShadow: (theme) => theme.customShadows.z8,
-              }}
-            >
-              <Box
-                component="img"
-                alt={logo}
-                src={asset(logo)}
-                sx={{ maxWidth: 1, maxHeight: 44, objectFit: 'contain' }}
-              />
-            </Box>
-          ))}
+          <Box
+            sx={{
+              gap: { xs: 6, md: 6 },
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+            }}
+          >
+            <Category group={mobile} />
+            <Category group={ui} />
+          </Box>
         </Box>
       </Container>
     </Box>

@@ -1,17 +1,14 @@
 'use client';
 
-import { m } from 'framer-motion';
-
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { varFade, MotionViewport } from 'src/components/animate';
 
 import { FOCUS } from './home-data';
+import { HomeHeading } from './home-heading';
 
 // ----------------------------------------------------------------------
 
@@ -19,50 +16,44 @@ export function HomeFocus() {
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
       <Container>
-        <Box
-          sx={{
-            gap: { xs: 5, md: 8 },
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { xs: 'column-reverse', md: 'row' },
-          }}
-        >
-          <MotionViewport sx={{ flex: 1 }}>
-            <Typography
-              component={m.p}
-              variants={varFade('inUp')}
-              variant="overline"
-              sx={{ mb: 2, display: 'block', color: 'primary.main' }}
-            >
-              {FOCUS.caption}
-            </Typography>
+        <HomeHeading title={FOCUS.caption} description={FOCUS.description} />
 
-            <Typography component={m.h2} variants={varFade('inUp')} variant="h2" sx={{ mb: 3 }}>
-              {FOCUS.title}
-            </Typography>
+        <Card sx={{ p: { xs: 3, md: 5 }, boxShadow: (theme) => theme.customShadows.z16 }}>
+          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center', color: 'primary.main' }}>
+            {FOCUS.highlight}
+          </Typography>
 
-            <Typography
-              component={m.p}
-              variants={varFade('inUp')}
-              sx={{ mb: 4, color: 'text.secondary' }}
-            >
-              {FOCUS.description}
-            </Typography>
-
-            <Stack component={m.div} variants={varFade('inUp')} spacing={2}>
-              {FOCUS.points.map((point) => (
-                <Box key={point} sx={{ gap: 1.5, display: 'flex', alignItems: 'center' }}>
-                  <Iconify icon="solar:check-circle-bold" sx={{ color: 'primary.main' }} />
-                  <Typography variant="subtitle1">{point}</Typography>
-                </Box>
-              ))}
-            </Stack>
-          </MotionViewport>
-
-          <Box sx={{ flex: 1, width: 1 }}>
-            <Image alt={FOCUS.title} src={FOCUS.image} ratio="1/1" sx={{ borderRadius: 2 }} />
+          <Box
+            sx={{
+              rowGap: 1.5,
+              columnGap: 3,
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {FOCUS.roles.map((role) => (
+              <Box key={role} sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
+                <Iconify width={20} icon="solar:check-circle-bold" sx={{ color: 'primary.main' }} />
+                <Typography variant="body2">{role}</Typography>
+              </Box>
+            ))}
           </Box>
-        </Box>
+
+          <Box
+            component="img"
+            alt={FOCUS.highlight}
+            src={FOCUS.image}
+            sx={{
+              mt: { xs: 4, md: 6 },
+              mx: 'auto',
+              width: 1,
+              maxWidth: 900,
+              height: 'auto',
+              display: 'block',
+            }}
+          />
+        </Card>
       </Container>
     </Box>
   );

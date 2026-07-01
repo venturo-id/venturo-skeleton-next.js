@@ -2,26 +2,21 @@ import type { BoxProps } from '@mui/material/Box';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-
-import { Logo } from 'src/components/logo';
+import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 
 export function HomeFooter({ sx, ...other }: BoxProps) {
   return (
-    <Box component="footer" sx={[{ py: 8 }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
-      <Container
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
-        <Logo isSingle sx={{ mb: 1 }} />
-
-        <Box component="span" sx={{ color: 'text.secondary', typography: 'caption' }}>
-          © All rights reserved.
-        </Box>
+    <Box
+      component="footer"
+      sx={[{ py: 3, bgcolor: 'grey.900' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      {...other}
+    >
+      <Container>
+        <Typography variant="body2" sx={{ textAlign: 'center', color: 'common.white' }}>
+          Venturo Pro © 2026 - The Biggest Programmer Resource in Malang, Jawa Timur
+        </Typography>
       </Container>
     </Box>
   );

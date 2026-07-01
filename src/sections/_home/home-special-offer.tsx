@@ -10,26 +10,24 @@ import Typography from '@mui/material/Typography';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { CONTACT, CLOSING_CTA } from './home-data';
+import { CONTACT, SPECIAL_OFFER } from './home-data';
 
 // ----------------------------------------------------------------------
 
-export function HomeCta() {
+export function HomeSpecialOffer() {
   return (
     <Box
       component="section"
-      sx={(theme) => ({
-        overflow: 'hidden',
-        color: 'common.white',
-        background: `linear-gradient(120deg, ${theme.vars.palette.primary.light}, ${theme.vars.palette.primary.main} 55%, ${theme.vars.palette.primary.dark})`,
-      })}
+      sx={{ py: { xs: 6, md: 8 }, overflow: 'hidden', bgcolor: 'background.neutral' }}
     >
       <Container>
         <Box
           sx={{
+            mx: 'auto',
+            maxWidth: 860,
             gap: { xs: 3, md: 6 },
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: 'center',
             flexDirection: { xs: 'column', md: 'row' },
           }}
         >
@@ -39,49 +37,47 @@ export function HomeCta() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            alt={CLOSING_CTA.title}
-            src={CLOSING_CTA.image}
-            sx={{ width: { xs: 220, md: 320 }, height: 'auto', flexShrink: 0 }}
+            alt={SPECIAL_OFFER.heading}
+            src={SPECIAL_OFFER.image}
+            sx={{ width: 'auto', height: { xs: 300, md: 420 }, flexShrink: 0 }}
           />
 
-          <MotionViewport sx={{ flex: 1, py: { xs: 0, md: 8 }, pb: { xs: 6, md: 8 } }}>
+          <MotionViewport sx={{ flex: 1 }}>
             <Typography
               component={m.h2}
               variants={varFade('inUp')}
               variant="h2"
-              sx={{ mb: 3, fontStyle: 'italic' }}
+              sx={{ mb: 2, fontStyle: 'italic', color: 'primary.main' }}
             >
-              {CLOSING_CTA.title}
+              {SPECIAL_OFFER.heading}
             </Typography>
 
-            <Typography
-              component={m.p}
-              variants={varFade('inUp')}
-              sx={{ mb: 4, maxWidth: 520, opacity: 0.9 }}
-            >
-              {CLOSING_CTA.description}{' '}
+            <Typography component={m.p} variants={varFade('inUp')} sx={{ mb: 4, maxWidth: 460 }}>
               <Box component="span" sx={{ fontWeight: 'fontWeightBold' }}>
-                {CLOSING_CTA.descriptionStrong}
+                {SPECIAL_OFFER.promoStrong}{' '}
               </Box>
-              . {CLOSING_CTA.descriptionEnd}
+              {SPECIAL_OFFER.promo}
             </Typography>
 
             <Box component={m.div} variants={varFade('inUp')}>
               <Button
                 size="large"
+                color="primary"
                 variant="contained"
                 href={CONTACT.wa}
                 target="_blank"
                 rel="noopener"
                 startIcon={<Iconify icon="solar:chat-round-call-linear" />}
-                sx={{
-                  color: 'primary.dark',
-                  bgcolor: 'common.white',
-                  '&:hover': { bgcolor: 'grey.200' },
-                }}
               >
-                {CLOSING_CTA.cta}
+                {SPECIAL_OFFER.cta}
               </Button>
+
+              <Box sx={{ mt: 2, gap: 1, display: 'flex', alignItems: 'center' }}>
+                <Iconify icon="solar:check-circle-bold" sx={{ color: 'primary.main' }} />
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  {SPECIAL_OFFER.note}
+                </Typography>
+              </Box>
             </Box>
           </MotionViewport>
         </Box>

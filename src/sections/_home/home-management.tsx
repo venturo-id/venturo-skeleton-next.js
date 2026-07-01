@@ -3,11 +3,9 @@
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { Image } from 'src/components/image';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { MANAGEMENT } from './home-data';
@@ -15,9 +13,35 @@ import { HomeHeading } from './home-heading';
 
 // ----------------------------------------------------------------------
 
-export function HomeManagement() {
+type Feature = (typeof MANAGEMENT.items)[number];
+
+function FeatureItem({ item }: { item: Feature }) {
   return (
-    <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
+    <Box component={m.div} variants={varFade('inUp')} sx={{ gap: 2, display: 'flex' }}>
+      <Box
+        component="img"
+        alt={item.title}
+        src={item.icon}
+        sx={{ width: 40, height: 40, flexShrink: 0, objectFit: 'contain' }}
+      />
+      <Box>
+        <Typography variant="subtitle1" sx={{ color: 'primary.main' }}>
+          {item.title}
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 0.25, color: 'text.secondary' }}>
+          {item.description}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function HomeManagement() {
+  const left = MANAGEMENT.items.slice(0, 3);
+  const right = MANAGEMENT.items.slice(3, 6);
+
+  return (
+    <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.neutral' }}>
       <Container>
         <HomeHeading
           caption={MANAGEMENT.caption}
@@ -25,48 +49,37 @@ export function HomeManagement() {
           description={MANAGEMENT.description}
         />
 
-        <Box sx={{ mb: { xs: 5, md: 8 }, mx: 'auto', maxWidth: 880 }}>
-          <Image
-            alt={MANAGEMENT.title}
-            src={MANAGEMENT.image}
-            ratio="16/9"
-            sx={{ borderRadius: 2, boxShadow: (theme) => theme.customShadows.z16 }}
-          />
-        </Box>
-
-        <MotionViewport
+        <Box
           sx={{
-            gap: 3,
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-            },
+            gap: { xs: 5, md: 4 },
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { xs: 'column', md: 'row' },
           }}
         >
-          {MANAGEMENT.items.map((item) => (
-            <Card
-              key={item.title}
-              component={m.div}
-              variants={varFade('inUp')}
-              sx={{ p: 3, height: 1, boxShadow: (theme) => theme.customShadows.z8 }}
-            >
-              <Box
-                component="img"
-                alt={item.title}
-                src={item.icon}
-                sx={{ width: 56, height: 56, mb: 2, objectFit: 'contain' }}
-              />
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                {item.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {item.description}
-              </Typography>
-            </Card>
-          ))}
-        </MotionViewport>
+          <MotionViewport sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {left.map((item) => (
+              <FeatureItem key={item.title} item={item} />
+            ))}
+          </MotionViewport>
+
+          <Box
+            component={m.img}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            alt="Venturo app"
+            src={MANAGEMENT.phone}
+            sx={{ flexShrink: 0, width: { xs: 220, md: 280 }, height: 'auto' }}
+          />
+
+          <MotionViewport sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {right.map((item) => (
+              <FeatureItem key={item.title} item={item} />
+            ))}
+          </MotionViewport>
+        </Box>
       </Container>
     </Box>
   );

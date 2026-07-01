@@ -10,6 +10,8 @@ import { HomeSolution } from '../home-solution';
 import { HomeResource } from '../home-resource';
 import { HomeTechStack } from '../home-tech-stack';
 import { HomeManagement } from '../home-management';
+import { HomeFloatingCta } from '../home-floating-cta';
+import { HomeSpecialOffer } from '../home-special-offer';
 
 // ----------------------------------------------------------------------
 
@@ -23,9 +25,11 @@ export function HomeView() {
       <HomeFocus />
       <HomeManagement />
       <HomeResource />
+      <HomeSpecialOffer />
       <HomeTechStack />
       <HomeFaqs />
       <HomeCta />
+      <HomeFloatingCta />
     </>
   );
 }
