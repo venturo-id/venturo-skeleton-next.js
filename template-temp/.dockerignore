@@ -1,9 +1,0 @@
-.git
-.gitignore
-.dockerignore
-Dockerfile
-*.metadesc-bak
-*.bak
-DEPLOY-NOTES.md
-Thumbs.db
-.DS_Store
