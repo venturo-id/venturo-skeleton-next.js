@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { getFaqGroups } from 'src/lib/api';
+import { getFaqGroups, getWhatsAppLink } from 'src/lib/api';
 
 import { HomeView } from 'src/sections/_home/view/home-view';
 
@@ -15,9 +15,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  // ISR via the fetch's revalidate (300s). Backend down → null → the FAQ
-  // section falls back to its static copy, so home never breaks.
-  const faqGroups = await getFaqGroups('id').catch(() => null);
+  // ISR via the fetch's revalidate (300s). Backend down → null → sections
+  // fall back to their static copy, so home never breaks.
+  const [faqGroups, waLink] = await Promise.all([
+    getFaqGroups('id').catch(() => null),
+    getWhatsAppLink('id').catch(() => null),
+  ]);
 
-  return <HomeView faqGroups={faqGroups} />;
+  return <HomeView faqGroups={faqGroups} waLink={waLink} />;
 }

@@ -14,7 +14,11 @@ import { CONTACT, SPECIAL_OFFER } from './home-data';
 
 // ----------------------------------------------------------------------
 
-export function HomeSpecialOffer() {
+type HomeSpecialOfferProps = {
+  waLink?: string | null;
+};
+
+export function HomeSpecialOffer({ waLink }: HomeSpecialOfferProps) {
   return (
     <Box
       component="section"
@@ -64,7 +68,7 @@ export function HomeSpecialOffer() {
                 size="large"
                 color="primary"
                 variant="contained"
-                href={CONTACT.wa}
+                href={waLink ?? CONTACT.wa}
                 target="_blank"
                 rel="noopener"
                 startIcon={<Iconify icon="solar:chat-round-call-linear" />}

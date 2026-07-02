@@ -19,23 +19,24 @@ import { HomeSpecialOffer } from '../home-special-offer';
 
 type HomeViewProps = {
   faqGroups?: FaqGroup[] | null;
+  waLink?: string | null;
 };
 
-export function HomeView({ faqGroups }: HomeViewProps) {
+export function HomeView({ faqGroups, waLink }: HomeViewProps) {
   return (
     <>
-      <HomeHero />
+      <HomeHero waLink={waLink} />
       <HomeClients />
       <HomeProblem />
       <HomeSolution />
       <HomeFocus />
       <HomeManagement />
       <HomeResource />
-      <HomeSpecialOffer />
+      <HomeSpecialOffer waLink={waLink} />
       <HomeTechStack />
       <HomeFaqs groups={faqGroups} />
-      <HomeCta />
-      <HomeFloatingCta />
+      <HomeCta waLink={waLink} />
+      <HomeFloatingCta waLink={waLink} />
     </>
   );
 }

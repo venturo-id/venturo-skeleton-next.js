@@ -14,7 +14,11 @@ import { CONTACT, CLOSING_CTA } from './home-data';
 
 // ----------------------------------------------------------------------
 
-export function HomeCta() {
+type HomeCtaProps = {
+  waLink?: string | null;
+};
+
+export function HomeCta({ waLink }: HomeCtaProps) {
   return (
     <Box
       component="section"
@@ -70,7 +74,7 @@ export function HomeCta() {
               <Button
                 size="large"
                 variant="contained"
-                href={CONTACT.wa}
+                href={waLink ?? CONTACT.wa}
                 target="_blank"
                 rel="noopener"
                 startIcon={<Iconify icon="solar:chat-round-call-linear" />}

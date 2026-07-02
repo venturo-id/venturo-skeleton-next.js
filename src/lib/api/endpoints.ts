@@ -14,4 +14,7 @@ export const endpoints = {
   faq: {
     list: 'api/faq',
   },
+  siteContent: {
+    map: 'api/site-content',
+  },
 };

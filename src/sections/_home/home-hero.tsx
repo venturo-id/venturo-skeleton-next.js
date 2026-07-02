@@ -17,7 +17,11 @@ import { HERO, asset, CONTACT } from './home-data';
 
 // ----------------------------------------------------------------------
 
-export function HomeHero() {
+type HomeHeroProps = {
+  waLink?: string | null;
+};
+
+export function HomeHero({ waLink }: HomeHeroProps) {
   return (
     <Box
       component="section"
@@ -75,7 +79,7 @@ export function HomeHero() {
                 size="large"
                 color="primary"
                 variant="contained"
-                href={CONTACT.wa}
+                href={waLink ?? CONTACT.wa}
                 target="_blank"
                 rel="noopener"
                 endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}

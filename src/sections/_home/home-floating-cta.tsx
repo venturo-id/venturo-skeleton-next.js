@@ -8,10 +8,14 @@ import { asset, CONTACT } from './home-data';
 
 // ----------------------------------------------------------------------
 
-export function HomeFloatingCta() {
+type HomeFloatingCtaProps = {
+  waLink?: string | null;
+};
+
+export function HomeFloatingCta({ waLink }: HomeFloatingCtaProps) {
   return (
     <Link
-      href={CONTACT.wa}
+      href={waLink ?? CONTACT.wa}
       target="_blank"
       rel="noopener"
       underline="none"
