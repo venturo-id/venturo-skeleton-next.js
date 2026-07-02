@@ -14,7 +14,7 @@ export const paths = {
    */
   article: {
     root: '/article',
-    details: (id: string) => `/article/${id}`,
+    details: (slug: string) => `/article/${slug}`,
   },
   /**
    * Common

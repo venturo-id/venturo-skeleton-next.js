@@ -1,9 +1,8 @@
 'use client';
 
-import type { IPostProps } from 'src/types/blog';
+import type { Article, ArticleListItem } from 'src/lib/api';
 
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
@@ -13,8 +12,6 @@ import ListItemText from '@mui/material/ListItemText';
 import { paths } from 'src/routes/paths';
 
 import { fDate } from 'src/utils/format-time';
-
-import { _articles } from 'src/_mock';
 
 import { Label } from 'src/components/label';
 import { Image } from 'src/components/image';
@@ -26,12 +23,11 @@ import { ArticleItem } from '../article-item';
 // ----------------------------------------------------------------------
 
 type ArticleDetailsViewProps = {
-  article: IPostProps;
+  article: Article;
+  relatedArticles?: ArticleListItem[];
 };
 
-export function ArticleDetailsView({ article }: ArticleDetailsViewProps) {
-  const relatedArticles = _articles.filter((item) => item.id !== article.id).slice(0, 3);
-
+export function ArticleDetailsView({ article, relatedArticles = [] }: ArticleDetailsViewProps) {
   return (
     <Container sx={{ pt: { xs: 3, md: 5 }, pb: { xs: 10, md: 15 } }}>
       <CustomBreadcrumbs
@@ -44,28 +40,30 @@ export function ArticleDetailsView({ article }: ArticleDetailsViewProps) {
       />
 
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Label variant="soft" color="info" sx={{ mb: 2, alignSelf: 'flex-start' }}>
-          {article.category}
-        </Label>
+        {article.category && (
+          <Label variant="soft" color="info" sx={{ mb: 2, alignSelf: 'flex-start' }}>
+            {article.category.name}
+          </Label>
+        )}
 
         <Typography variant="h2" component="h1">
           {article.title}
         </Typography>
 
-        <Typography variant="h5" component="p" sx={{ mt: 3, color: 'text.secondary' }}>
-          {article.description}
-        </Typography>
+        {article.excerpt && (
+          <Typography variant="h5" component="p" sx={{ mt: 3, color: 'text.secondary' }}>
+            {article.excerpt}
+          </Typography>
+        )}
 
         <Box sx={{ my: 5, gap: 2, display: 'flex', alignItems: 'center' }}>
-          <Avatar
-            src={article.author.avatarUrl}
-            alt={article.author.name}
-            sx={{ width: 48, height: 48 }}
-          />
+          <Avatar alt={article.author} sx={{ width: 48, height: 48 }}>
+            {article.author.charAt(0).toUpperCase()}
+          </Avatar>
 
           <ListItemText
-            primary={article.author.name}
-            secondary={`${fDate(article.createdAt)} • ${article.duration}`}
+            primary={article.author}
+            secondary={fDate(article.published_at ?? article.created_at)}
             slotProps={{
               primary: { sx: { typography: 'subtitle2' } },
               secondary: { sx: { typography: 'caption', color: 'text.disabled' } },
@@ -73,37 +71,42 @@ export function ArticleDetailsView({ article }: ArticleDetailsViewProps) {
           />
         </Box>
 
-        <Image src={article.heroUrl} alt={article.title} ratio="16/9" sx={{ borderRadius: 3 }} />
+        {article.cover_url && (
+          <Image
+            src={article.cover_url}
+            alt={article.title}
+            ratio="16/9"
+            visibleByDefault
+            slotProps={{ img: { fetchPriority: 'high' } }}
+            sx={{ borderRadius: 3 }}
+          />
+        )}
 
         <Markdown content={article.content} sx={{ mt: 5 }} />
+      </Box>
 
-        {!!article.tags?.length && (
-          <Box sx={{ mt: 5, gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-            {article.tags.map((tag) => (
-              <Chip key={tag} label={tag} size="small" variant="soft" />
+      {relatedArticles.length > 0 && (
+        <>
+          <Divider sx={{ mt: { xs: 8, md: 10 }, mb: { xs: 5, md: 8 } }} />
+
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Related articles
+          </Typography>
+
+          <Box
+            sx={{
+              columnGap: 4,
+              rowGap: { xs: 5, md: 8 },
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+            }}
+          >
+            {relatedArticles.map((item) => (
+              <ArticleItem key={item.slug} article={item} />
             ))}
           </Box>
-        )}
-      </Box>
-
-      <Divider sx={{ mt: { xs: 8, md: 10 }, mb: { xs: 5, md: 8 } }} />
-
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Related articles
-      </Typography>
-
-      <Box
-        sx={{
-          columnGap: 4,
-          rowGap: { xs: 5, md: 8 },
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
-        }}
-      >
-        {relatedArticles.map((item) => (
-          <ArticleItem key={item.id} article={item} />
-        ))}
-      </Box>
+        </>
+      )}
     </Container>
   );
 }

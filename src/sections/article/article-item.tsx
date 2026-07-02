@@ -1,4 +1,4 @@
-import type { IPostProps } from 'src/types/blog';
+import type { ArticleListItem } from 'src/lib/api';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -20,26 +20,42 @@ import { Image } from 'src/components/image';
 // ----------------------------------------------------------------------
 
 type ArticleItemProps = {
-  article: IPostProps;
+  article: ArticleListItem;
+  /** Above-the-fold items: render eagerly (in the SSR HTML) with high fetch priority. */
+  priority?: boolean;
 };
 
-export function ArticleItem({ article }: ArticleItemProps) {
+export function ArticleItem({ article, priority = false }: ArticleItemProps) {
+  const detailsHref = paths.article.details(article.slug);
+
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ position: 'relative' }}>
-        <Label variant="filled" sx={{ top: 16, right: 16, zIndex: 9, position: 'absolute' }}>
-          {article.category}
-        </Label>
+        {article.category && (
+          <Label variant="filled" sx={{ top: 16, right: 16, zIndex: 9, position: 'absolute' }}>
+            {article.category.name}
+          </Label>
+        )}
 
-        <CardActionArea component={RouterLink} href={paths.article.details(article.id)}>
-          <Image src={article.coverUrl} alt={article.title} ratio="16/9" />
+        <CardActionArea component={RouterLink} href={detailsHref}>
+          {article.cover_url ? (
+            <Image
+              src={article.cover_url}
+              alt={article.title}
+              ratio="16/9"
+              visibleByDefault={priority}
+              slotProps={{ img: priority ? { fetchPriority: 'high' } : { loading: 'lazy' } }}
+            />
+          ) : (
+            <Box sx={{ aspectRatio: '16/9', bgcolor: 'background.neutral' }} />
+          )}
         </CardActionArea>
       </Box>
 
       <CardContent sx={{ gap: 1, display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
         <Link
           component={RouterLink}
-          href={paths.article.details(article.id)}
+          href={detailsHref}
           color="inherit"
           variant="h6"
           sx={(theme) => ({ ...theme.mixins.maxLine({ line: 2 }) })}
@@ -51,15 +67,15 @@ export function ArticleItem({ article }: ArticleItemProps) {
           variant="body2"
           sx={(theme) => ({ ...theme.mixins.maxLine({ line: 2 }), color: 'text.secondary' })}
         >
-          {article.description}
+          {article.excerpt}
         </Typography>
 
         <Box sx={{ mt: 'auto', pt: 2, gap: 1.5, display: 'flex', alignItems: 'center' }}>
-          <Avatar src={article.author.avatarUrl} alt={article.author.name} />
+          <Avatar alt={article.author}>{article.author.charAt(0).toUpperCase()}</Avatar>
 
           <ListItemText
-            primary={article.author.name}
-            secondary={`${fDate(article.createdAt)} • ${article.duration}`}
+            primary={article.author}
+            secondary={fDate(article.published_at ?? article.created_at)}
             slotProps={{
               primary: { sx: { typography: 'subtitle2' } },
               secondary: { sx: { typography: 'caption', color: 'text.disabled' } },

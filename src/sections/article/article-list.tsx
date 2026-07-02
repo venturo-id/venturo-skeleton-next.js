@@ -1,37 +1,36 @@
 'use client';
 
-import type { IPostProps } from 'src/types/blog';
-
-import { useState, useCallback } from 'react';
+import type { ArticleListItem } from 'src/lib/api';
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Skeleton from '@mui/material/Skeleton';
+import CardContent from '@mui/material/CardContent';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
 
 import { ArticleItem } from './article-item';
 
 // ----------------------------------------------------------------------
 
-const ARTICLES_PER_PAGE = 6;
+const SKELETON_COUNT = 6;
+// First grid row is (partially) above the fold — render those covers eagerly.
+const PRIORITY_COUNT = 3;
 
 type ArticleListProps = {
-  articles: IPostProps[];
+  articles: ArticleListItem[];
+  loading?: boolean;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
 
-export function ArticleList({ articles }: ArticleListProps) {
-  const [page, setPage] = useState(1);
-
-  const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE);
-
-  const displayedArticles = articles.slice(
-    (page - 1) * ARTICLES_PER_PAGE,
-    page * ARTICLES_PER_PAGE
-  );
-
-  const handleChangePage = useCallback((event: React.ChangeEvent<unknown>, newPage: number) => {
-    setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
+export function ArticleList({
+  articles,
+  loading = false,
+  page,
+  totalPages,
+  onPageChange,
+}: ArticleListProps) {
   return (
     <>
       <Box
@@ -42,20 +41,53 @@ export function ArticleList({ articles }: ArticleListProps) {
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
         }}
       >
-        {displayedArticles.map((article) => (
-          <ArticleItem key={article.id} article={article} />
-        ))}
+        {loading
+          ? Array.from({ length: SKELETON_COUNT }, (_, index) => (
+              <ArticleItemSkeleton key={index} />
+            ))
+          : articles.map((article, index) => (
+              <ArticleItem
+                key={article.slug}
+                article={article}
+                priority={index < PRIORITY_COUNT && page === 1}
+              />
+            ))}
       </Box>
 
-      <Pagination
-        count={totalPages}
-        page={page}
-        onChange={handleChangePage}
-        sx={{
-          py: { xs: 8, md: 10 },
-          [`& .${paginationClasses.ul}`]: { justifyContent: 'center' },
-        }}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(event, newPage) => onPageChange(newPage)}
+          sx={{
+            py: { xs: 8, md: 10 },
+            [`& .${paginationClasses.ul}`]: { justifyContent: 'center' },
+          }}
+        />
+      )}
     </>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function ArticleItemSkeleton() {
+  return (
+    <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Skeleton variant="rectangular" sx={{ width: 1, height: 'auto', aspectRatio: '16/9' }} />
+
+      <CardContent sx={{ gap: 1, display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
+        <Skeleton sx={{ width: 0.9 }} />
+        <Skeleton sx={{ width: 0.6 }} />
+
+        <Box sx={{ mt: 'auto', pt: 2, gap: 1.5, display: 'flex', alignItems: 'center' }}>
+          <Skeleton variant="circular" sx={{ width: 40, height: 40, flexShrink: 0 }} />
+          <Box sx={{ flexGrow: 1 }}>
+            <Skeleton sx={{ width: 0.5 }} />
+            <Skeleton sx={{ width: 0.3 }} />
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

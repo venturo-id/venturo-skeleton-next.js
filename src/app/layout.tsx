@@ -6,10 +6,12 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import { CONFIG } from 'src/global-config';
+import { QueryProvider } from 'src/lib/query';
 import { LocalizationProvider } from 'src/locales';
 import { themeOverrides } from 'src/theme/theme-overrides';
 import { themeConfig, ThemeProvider, primary as primaryColor } from 'src/theme';
 
+import { Preconnect } from 'src/components/preconnect';
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
@@ -23,6 +25,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(CONFIG.siteUrl),
   icons: [
     {
       rel: 'icon',
@@ -51,23 +54,27 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           defaultMode={themeConfig.defaultMode}
         />
 
-        <SettingsProvider defaultSettings={defaultSettings}>
-          <LocalizationProvider>
-            <AppRouterCacheProvider options={{ key: 'css' }}>
-              <ThemeProvider
-                themeOverrides={themeOverrides}
-                modeStorageKey={themeConfig.modeStorageKey}
-                defaultMode={themeConfig.defaultMode}
-              >
-                <MotionLazy>
-                  <ProgressBar />
-                  <SettingsDrawer defaultSettings={defaultSettings} />
-                  {children}
-                </MotionLazy>
-              </ThemeProvider>
-            </AppRouterCacheProvider>
-          </LocalizationProvider>
-        </SettingsProvider>
+        <Preconnect />
+
+        <QueryProvider>
+          <SettingsProvider defaultSettings={defaultSettings}>
+            <LocalizationProvider>
+              <AppRouterCacheProvider options={{ key: 'css' }}>
+                <ThemeProvider
+                  themeOverrides={themeOverrides}
+                  modeStorageKey={themeConfig.modeStorageKey}
+                  defaultMode={themeConfig.defaultMode}
+                >
+                  <MotionLazy>
+                    <ProgressBar />
+                    <SettingsDrawer defaultSettings={defaultSettings} />
+                    {children}
+                  </MotionLazy>
+                </ThemeProvider>
+              </AppRouterCacheProvider>
+            </LocalizationProvider>
+          </SettingsProvider>
+        </QueryProvider>
       </body>
     </html>
   );
