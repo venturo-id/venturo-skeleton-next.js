@@ -1,5 +1,7 @@
 'use client';
 
+import type { FaqGroup } from 'src/lib/api';
+
 import { HomeCta } from '../home-cta';
 import { HomeHero } from '../home-hero';
 import { HomeFaqs } from '../home-faqs';
@@ -15,7 +17,11 @@ import { HomeSpecialOffer } from '../home-special-offer';
 
 // ----------------------------------------------------------------------
 
-export function HomeView() {
+type HomeViewProps = {
+  faqGroups?: FaqGroup[] | null;
+};
+
+export function HomeView({ faqGroups }: HomeViewProps) {
   return (
     <>
       <HomeHero />
@@ -27,7 +33,7 @@ export function HomeView() {
       <HomeResource />
       <HomeSpecialOffer />
       <HomeTechStack />
-      <HomeFaqs />
+      <HomeFaqs groups={faqGroups} />
       <HomeCta />
       <HomeFloatingCta />
     </>

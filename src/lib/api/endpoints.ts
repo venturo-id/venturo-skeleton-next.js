@@ -11,4 +11,7 @@ export const endpoints = {
     details: (slug: string) => `api/articles/${encodeURIComponent(slug)}`,
     categories: 'api/article-categories',
   },
+  faq: {
+    list: 'api/faq',
+  },
 };
