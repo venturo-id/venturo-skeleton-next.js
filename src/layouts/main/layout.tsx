@@ -17,7 +17,6 @@ import { usePathname } from 'src/routes/hooks';
 import { Logo } from 'src/components/logo';
 
 import { Footer } from './footer';
-import { langs } from '../langs-config';
 import { NavMobile } from './nav/mobile';
 import { NavDesktop } from './nav/desktop';
 import { HomeFooter } from './home-footer';
@@ -27,9 +26,6 @@ import { Searchbar } from '../components/searchbar';
 import { MenuButton } from '../components/menu-button';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
-import { PurchaseButton } from '../components/purchase-button';
-import { SettingsButton } from '../components/settings-button';
-import { LanguagePopover } from '../components/language-popover';
 
 // ----------------------------------------------------------------------
 
@@ -84,28 +80,19 @@ export function MainLayout({
           <Logo />
         </>
       ),
-      centerArea: (
-        <NavDesktop
-          data={navData}
-          sx={(theme) => ({
-            display: 'none',
-            [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
-          })}
-        />
-      ),
       rightArea: (
         <Box sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
+          {/** @slot Nav desktop */}
+          <NavDesktop
+            data={navData}
+            sx={(theme) => ({
+              display: 'none',
+              [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
+            })}
+          />
+
           {/** @slot Searchbar */}
           <Searchbar />
-
-          {/** @slot Language popover */}
-          <LanguagePopover data={langs} />
-
-          {/** @slot Settings button */}
-          <SettingsButton />
-
-          {/** @slot Purchase button */}
-          <PurchaseButton sx={{ display: { xs: 'none', [layoutQuery]: 'inline-flex' } }} />
         </Box>
       ),
     };

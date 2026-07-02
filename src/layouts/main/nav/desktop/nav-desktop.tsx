@@ -10,7 +10,7 @@ type NavDesktopProps = React.ComponentProps<typeof Nav> & NavMainProps;
 export function NavDesktop({ data, sx, ...other }: NavDesktopProps) {
   return (
     <Nav sx={sx} {...other}>
-      <NavUl sx={{ gap: 0.5, flexDirection: 'row', alignItems: 'center' }}>
+      <NavUl sx={{ gap: 2.5, flexDirection: 'row', alignItems: 'center' }}>
         {data.map((list) => (
           <NavList key={list.title} data={list} />
         ))}
