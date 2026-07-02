@@ -10,6 +10,13 @@ export const paths = {
   resetPassword: '/reset-password',
   updatePassword: '/update-password',
   /**
+   * Article
+   */
+  article: {
+    root: '/article',
+    details: (id: string) => `/article/${id}`,
+  },
+  /**
    * Common
    */
   maintenance: '/maintenance',
