@@ -1,128 +1,73 @@
-import type { CSSObject } from '@mui/material/styles';
-import type { NavItemProps } from '../types';
-
-import { varAlpha, mergeClasses } from 'minimal-shared/utils';
+import type { ButtonBaseProps } from '@mui/material/ButtonBase';
 
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 
 import { Iconify } from 'src/components/iconify';
-import { createNavItem, navItemStyles, navSectionClasses } from 'src/components/nav-section';
 
 // ----------------------------------------------------------------------
 
-export function NavItem({
-  title,
-  path,
-  /********/
-  open,
-  active,
-  /********/
-  subItem,
-  hasChild,
-  className,
-  externalLink,
-  ...other
-}: NavItemProps) {
-  const navItem = createNavItem({ path, hasChild, externalLink });
+export type NavItemProps = ButtonBaseProps & {
+  title: string;
+  open?: boolean;
+  active?: boolean;
+  hasChild?: boolean;
+};
 
-  const ownerState: StyledState = { open, active, variant: !subItem ? 'rootItem' : 'subItem' };
-
+export function NavItem({ title, open, active, hasChild, ...other }: NavItemProps) {
   return (
-    <ItemRoot
-      disableRipple
-      aria-label={title}
-      {...ownerState}
-      {...navItem.baseProps}
-      className={mergeClasses([navSectionClasses.item.root, className], {
-        [navSectionClasses.state.open]: open,
-        [navSectionClasses.state.active]: active,
-      })}
-      {...other}
-    >
-      <ItemTitle {...ownerState}> {title}</ItemTitle>
-
-      {hasChild && <ItemArrow {...ownerState} icon="eva:arrow-ios-downward-fill" />}
+    <ItemRoot disableRipple aria-label={title} active={active} open={open} {...other}>
+      {title}
+      {hasChild && <ItemArrow open={open} icon="eva:arrow-ios-downward-fill" />}
     </ItemRoot>
   );
 }
 
 // ----------------------------------------------------------------------
 
-type StyledState = Pick<NavItemProps, 'open' | 'active'> & {
-  variant: 'rootItem' | 'subItem';
-};
+type StyledState = { open?: boolean; active?: boolean };
 
-const shouldForwardProp = (prop: string) => !['open', 'active', 'variant', 'sx'].includes(prop);
+const shouldForwardProp = (prop: string) => !['open', 'active'].includes(prop);
 
-/**
- * @slot root
- */
-const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({
-  active,
-  open,
-  theme,
-}) => {
-  const dotTransitions: Record<'in' | 'out', CSSObject> = {
-    in: { opacity: 0, scale: 0 },
-    out: { opacity: 1, scale: 1 },
-  };
-
-  const dotStyles: CSSObject = {
-    ...dotTransitions.in,
-    width: 6,
-    height: 6,
-    left: -12,
-    content: '""',
-    borderRadius: '50%',
-    position: 'absolute',
-    backgroundColor: varAlpha(theme.vars.palette.text.disabledChannel, 0.64),
-    transition: theme.transitions.create(['opacity', 'scale'], {
-      duration: theme.transitions.duration.shorter,
-    }),
-    ...(active && { ...dotTransitions.out, backgroundColor: theme.vars.palette.primary.main }),
-  };
-
-  const rootItemStyles: CSSObject = {
-    ...(open && { '&::before': { ...dotTransitions.out } }),
-    ...(active && { color: theme.vars.palette.primary.main }),
-  };
-
-  const subItemStyles: CSSObject = {
-    color: theme.vars.palette.text.secondary,
-    '&:hover': { color: theme.vars.palette.text.primary },
-    ...(active && { color: theme.vars.palette.text.primary }),
-  };
-
-  return {
-    transition: theme.transitions.create(['color'], {
-      duration: theme.transitions.duration.shorter,
-    }),
-    '&::before': dotStyles,
-    '&:hover::before': { ...dotTransitions.out },
-    variants: [
-      { props: { variant: 'rootItem' }, style: rootItemStyles },
-      { props: { variant: 'subItem' }, style: subItemStyles },
-    ],
-  };
-});
-
-/**
- * @slot title
- */
-const ItemTitle = styled('span', { shouldForwardProp })<StyledState>(({ theme }) => ({
-  ...navItemStyles.title(theme),
+const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({ theme }) => ({
+  height: 34,
+  gap: theme.spacing(0.5),
+  paddingInline: theme.spacing(1),
+  borderRadius: `${theme.shape.borderRadius}px`,
+  color: theme.vars.palette.text.primary,
   ...theme.typography.body2,
   fontWeight: theme.typography.fontWeightMedium,
+  transition: theme.transitions.create(['color', 'background-color'], {
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&:hover': { backgroundColor: theme.vars.palette.action.hover },
+  '&:focus-visible': {
+    outline: `2px solid ${theme.vars.palette.text.primary}`,
+    outlineOffset: 2,
+  },
   variants: [
-    { props: { variant: 'subItem' }, style: { fontSize: theme.typography.pxToRem(13) } },
-    { props: { active: true }, style: { fontWeight: theme.typography.fontWeightSemiBold } },
+    {
+      props: { active: true },
+      style: {
+        color: theme.vars.palette.primary.main,
+        fontWeight: theme.typography.fontWeightSemiBold,
+      },
+    },
+    {
+      props: { open: true },
+      style: {
+        color: theme.vars.palette.primary.main,
+        backgroundColor: theme.vars.palette.action.hover,
+      },
+    },
   ],
 }));
 
-/**
- * @slot arrow
- */
 const ItemArrow = styled(Iconify, { shouldForwardProp })<StyledState>(({ theme }) => ({
-  ...navItemStyles.arrow(theme),
+  width: 16,
+  height: 16,
+  transition: theme.transitions.create(['transform'], {
+    duration: theme.transitions.duration.shorter,
+  }),
+  variants: [{ props: { open: true }, style: { transform: 'rotate(-180deg)' } }],
 }));

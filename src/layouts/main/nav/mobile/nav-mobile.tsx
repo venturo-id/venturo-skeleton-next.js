@@ -74,7 +74,7 @@ export function NavMobile({ data, open, onClose, slots, sx }: NavMobileProps) {
             flexDirection: 'column',
           }}
         >
-          <NavUl>
+          <NavUl sx={{ px: 1, gap: 0.5 }}>
             {data.map((list) => (
               <NavList key={list.title} data={list} />
             ))}

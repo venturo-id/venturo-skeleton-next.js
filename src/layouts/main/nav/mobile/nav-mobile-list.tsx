@@ -1,76 +1,76 @@
-import type { NavListProps } from '../types';
+import type { NavItemDataProps } from '../types';
 
-import { useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useBoolean } from 'minimal-shared/hooks';
-import { isActiveLink, isExternalLink } from 'minimal-shared/utils';
+import { isEqualPath, isActiveLink, isExternalLink } from 'minimal-shared/utils';
 
 import Collapse from '@mui/material/Collapse';
 
-import { paths } from 'src/routes/paths';
 import { usePathname } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
-import { NavSectionVertical } from 'src/components/nav-section';
-
-import { NavLi } from '../components';
 import { NavItem } from './nav-mobile-item';
+import { NavLi, NavUl } from '../components';
 
 // ----------------------------------------------------------------------
 
-export function NavList({ data, sx, ...other }: NavListProps) {
+const linkProps = (path: string) =>
+  isExternalLink(path)
+    ? { component: 'a' as const, href: path, target: '_blank', rel: 'noopener' }
+    : { component: RouterLink, href: path };
+
+export function NavList({ data }: { data: NavItemDataProps }) {
   const pathname = usePathname();
-  const navItemRef = useRef<HTMLButtonElement | null>(null);
 
-  const isNotRootOrDocs = !['/', paths.docs].includes(pathname);
-  const isNotComponentsPath = !pathname.startsWith(paths.components);
-  const isOpenPath = !!data.children && isNotRootOrDocs && isNotComponentsPath;
+  const hasChild = !!data.children?.length;
+  const isActive = isActiveLink(pathname, data.path, hasChild);
 
-  const isActive = isActiveLink(pathname, data.path, !!data.children);
+  const { value: open, onToggle, onFalse } = useBoolean(isActive && hasChild);
 
-  const { value: open, onToggle } = useBoolean(isOpenPath);
+  // Collapse open menus when the route changes.
+  useEffect(() => {
+    onFalse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
-  const handleToggleMenu = useCallback(() => {
-    if (data.children) {
-      onToggle();
-    }
-  }, [data.children, onToggle]);
+  const handleToggle = useCallback(() => {
+    if (hasChild) onToggle();
+  }, [hasChild, onToggle]);
 
-  const renderNavItem = () => (
-    <NavItem
-      ref={navItemRef}
-      // slots
-      path={data.path}
-      icon={data.icon}
-      title={data.title}
-      // state
-      open={open}
-      active={isActive}
-      // options
-      hasChild={!!data.children}
-      externalLink={isExternalLink(data.path)}
-      // actions
-      onClick={handleToggleMenu}
-    />
-  );
-
-  const renderCollapse = () =>
-    !!data.children && (
-      <Collapse in={open}>
-        <NavSectionVertical
-          data={data.children}
-          sx={{ px: 1.5 }}
-          slotProps={{
-            rootItem: {
-              sx: [{ minHeight: 32 }],
-            },
-          }}
-        />
-      </Collapse>
+  const renderItem = () =>
+    hasChild ? (
+      <NavItem
+        title={data.title}
+        hasChild
+        open={open}
+        active={isActive}
+        aria-expanded={open}
+        onClick={handleToggle}
+      />
+    ) : (
+      <NavItem title={data.title} active={isActive} {...linkProps(data.path)} />
     );
 
   return (
-    <NavLi sx={sx} {...other}>
-      {renderNavItem()}
-      {renderCollapse()}
+    <NavLi>
+      {renderItem()}
+
+      {hasChild && (
+        <Collapse in={open}>
+          <NavUl sx={{ gap: 0.5, mt: 0.5 }}>
+            {data.children?.map((child) => (
+              <NavLi key={child.title}>
+                <NavItem
+                  subItem
+                  title={child.title}
+                  active={child.path !== '#' && isEqualPath(child.path, pathname)}
+                  {...linkProps(child.path)}
+                />
+              </NavLi>
+            ))}
+          </NavUl>
+        </Collapse>
+      )}
     </NavLi>
   );
 }

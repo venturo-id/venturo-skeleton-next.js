@@ -5,8 +5,8 @@ import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { asset, TECH_STACK } from './home-data';
 import { HomeHeading } from './home-heading';
+import { asset, TECH_STACK } from './home-data';
 
 // ----------------------------------------------------------------------
 

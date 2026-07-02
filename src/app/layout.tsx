@@ -28,6 +28,10 @@ export const metadata: Metadata = {
       rel: 'icon',
       url: `${CONFIG.assetsDir}/favicon.ico`,
     },
+    {
+      rel: 'apple-touch-icon',
+      url: `${CONFIG.assetsDir}/apple-touch-icon.png`,
+    },
   ],
 };
 

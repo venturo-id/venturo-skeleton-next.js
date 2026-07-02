@@ -1,82 +1,142 @@
-import type { NavListProps } from '../types';
+import type { NavItemDataProps } from '../types';
 
-import { useBoolean } from 'minimal-shared/hooks';
-import { useRef, useEffect, useCallback } from 'react';
-import { isActiveLink, isExternalLink } from 'minimal-shared/utils';
+import { useId, useRef, useState, useEffect, useCallback } from 'react';
+import { isEqualPath, isActiveLink, isExternalLink } from 'minimal-shared/utils';
+
+import Box from '@mui/material/Box';
+import Popover from '@mui/material/Popover';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
 
 import { usePathname } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 import { NavItem } from './nav-desktop-item';
-import { NavSubList } from './nav-desktop-sub-list';
-import { Nav, NavLi, NavUl, NavDropdown } from '../components';
 
 // ----------------------------------------------------------------------
 
-export function NavList({ data, sx, ...other }: NavListProps) {
+const linkProps = (path: string) =>
+  isExternalLink(path)
+    ? { component: 'a' as const, href: path, target: '_blank', rel: 'noopener' }
+    : { component: RouterLink, href: path };
+
+export function NavList({ data }: { data: NavItemDataProps }) {
   const pathname = usePathname();
-  const navItemRef = useRef<HTMLButtonElement | null>(null);
+  const menuId = useId();
 
-  const isActive = isActiveLink(pathname, data.path, !!data.children);
-  const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
+  const anchorRef = useRef<HTMLLIElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const openedByKeyboard = useRef(false);
 
-  const mainList = data?.children?.filter((list) => list.subheader !== 'Common');
-  const commonList = data?.children?.find((list) => list.subheader === 'Common');
+  const hasChild = !!data.children?.length;
+  const isActive = isActiveLink(pathname, data.path, hasChild);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = useCallback(() => {
+    if (hasChild) setOpen(true);
+  }, [hasChild]);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    openedByKeyboard.current = false;
+  }, []);
+
+  // Close on route change.
   useEffect(() => {
-    if (open) {
-      onClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setOpen(false);
   }, [pathname]);
 
-  const handleOpenMenu = useCallback(() => {
-    if (data.children) {
-      onOpen();
-    }
-  }, [data.children, onOpen]);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (!hasChild) return;
 
-  const renderNavItem = () => (
-    <NavItem
-      ref={navItemRef}
-      // slots
-      path={data.path}
-      title={data.title}
-      // state
-      open={open}
-      active={isActive}
-      // options
-      hasChild={!!data.children}
-      externalLink={isExternalLink(data.path)}
-      // action
-      onMouseEnter={handleOpenMenu}
-      onMouseLeave={onClose}
-    />
+      if (['Enter', ' ', 'ArrowDown'].includes(event.key)) {
+        event.preventDefault();
+        openedByKeyboard.current = true;
+        setOpen(true);
+      } else if (event.key === 'Escape') {
+        handleClose();
+      }
+    },
+    [hasChild, handleClose]
   );
 
-  const renderDropdown = () =>
-    !!data.children && (
-      <NavDropdown open={open} onMouseEnter={handleOpenMenu} onMouseLeave={onClose}>
-        <Nav>
-          <NavUl sx={{ gap: { xs: 3, lg: 5 }, flexDirection: 'row' }}>
-            {mainList?.map((list) => (
-              <NavSubList
-                key={list.subheader}
-                subheader={list.subheader}
-                coverUrl={list.coverUrl}
-                items={list.items}
-              />
-            ))}
-
-            {commonList && <NavSubList subheader={commonList.subheader} items={commonList.items} />}
-          </NavUl>
-        </Nav>
-      </NavDropdown>
+  // Leaf item — a plain link.
+  if (!hasChild) {
+    return (
+      <Box component="li" sx={{ display: 'inline-flex' }}>
+        <NavItem title={data.title} active={isActive} {...linkProps(data.path)} />
+      </Box>
     );
+  }
 
+  // Parent item — accessible dropdown (hover + click + keyboard).
   return (
-    <NavLi sx={sx} {...other}>
-      {renderNavItem()}
-      {renderDropdown()}
-    </NavLi>
+    <Box
+      ref={anchorRef}
+      component="li"
+      onMouseEnter={handleOpen}
+      onMouseLeave={handleClose}
+      sx={{ display: 'inline-flex' }}
+    >
+      <NavItem
+        ref={triggerRef}
+        title={data.title}
+        hasChild
+        open={open}
+        active={isActive}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        onClick={() => setOpen((prev) => !prev)}
+        onKeyDown={handleKeyDown}
+      />
+
+      <Popover
+        id={menuId}
+        open={open}
+        anchorEl={anchorRef.current}
+        onClose={handleClose}
+        disableScrollLock
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        slotProps={{
+          // Let the page under the popover stay hoverable (so moving between
+          // top-level items feels natural); only the paper captures pointers.
+          root: { sx: { pointerEvents: 'none' } },
+          paper: {
+            onMouseEnter: handleOpen,
+            onMouseLeave: handleClose,
+            // Flush under the trigger (no dead-zone gap that would drop the hover).
+            sx: { minWidth: 180, pointerEvents: 'auto' },
+          },
+        }}
+      >
+        <MenuList
+          autoFocusItem={open && openedByKeyboard.current}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              handleClose();
+              triggerRef.current?.focus();
+            }
+          }}
+        >
+          {data.children?.map((child) => (
+            <MenuItem
+              key={child.title}
+              selected={child.path !== '#' && isEqualPath(child.path, pathname)}
+              onClick={handleClose}
+              {...linkProps(child.path)}
+            >
+              {child.title}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Popover>
+    </Box>
   );
 }
