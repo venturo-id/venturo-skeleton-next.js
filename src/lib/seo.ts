@@ -25,6 +25,62 @@ export function articleJsonLd(article: Article, url: string) {
 }
 
 /**
+ * Google Organization structured data (knowledge panel / brand info):
+ * https://developers.google.com/search/docs/appearance/structured-data/organization
+ * Dirender di home page — contactPoint memakai link WhatsApp dari
+ * site-content API bila tersedia.
+ */
+export function organizationJsonLd(options: { waLink?: string | null; email?: string } = {}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: CONFIG.appName,
+    url: `${CONFIG.siteUrl}/`,
+    logo: `${CONFIG.siteUrl}${CONFIG.assetsDir}/assets/venturo/logo-venturo-icon.webp`,
+    ...(options.waLink || options.email
+      ? {
+          contactPoint: [
+            {
+              '@type': 'ContactPoint',
+              contactType: 'customer service',
+              ...(options.email && { email: options.email }),
+              ...(options.waLink && { url: options.waLink }),
+            },
+          ],
+        }
+      : {}),
+  };
+}
+
+/** WebSite structured data — identitas situs untuk hasil pencarian. */
+export function webSiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: CONFIG.appName,
+    url: `${CONFIG.siteUrl}/`,
+  };
+}
+
+/**
+ * BreadcrumbList structured data:
+ * https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
+ * Item terakhir (halaman aktif) boleh tanpa `url`.
+ */
+export function breadcrumbListJsonLd(items: { name: string; url?: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      ...(item.url && { item: item.url }),
+    })),
+  };
+}
+
+/**
  * Serialize for a <script type="application/ld+json"> tag. Escaping `<`
  * blocks `</script>` breakout injection — official Next.js guidance:
  * https://nextjs.org/docs/app/guides/json-ld

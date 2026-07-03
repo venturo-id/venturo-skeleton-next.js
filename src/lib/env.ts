@@ -26,6 +26,10 @@ const rawEnv = {
   // Server-only: override URL API internal (mis. DNS service k8s) untuk
   // fetch RSC/sitemap. Tidak pernah masuk bundle client.
   API_URL: typeof window === 'undefined' ? emptyToUndefined(process.env.API_URL) : undefined,
+  // Server-only: bearer token webhook POST /api/revalidate (invalidasi ISR
+  // on-demand dari backend/CMS). Endpoint nonaktif bila tidak di-set.
+  REVALIDATE_TOKEN:
+    typeof window === 'undefined' ? emptyToUndefined(process.env.REVALIDATE_TOKEN) : undefined,
 };
 
 const schema = z.object({
@@ -37,6 +41,7 @@ const schema = z.object({
   NEXT_PUBLIC_ASSETS_DIR: z.string().default(''),
   NEXT_PUBLIC_SHOW_COMPONENTS: z.string().default(''),
   API_URL: z.url().optional(),
+  REVALIDATE_TOKEN: z.string().min(16).optional(),
 });
 
 const parsed = schema.safeParse(rawEnv);

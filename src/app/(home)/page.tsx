@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 
 import { CONFIG } from 'src/global-config';
 import { getFaqGroups, getWhatsAppLink } from 'src/lib/api';
+import { webSiteJsonLd, toJsonLdScript, organizationJsonLd } from 'src/lib/seo';
 
+import { CONTACT } from 'src/sections/_home/home-data';
 import { HomeView } from 'src/sections/_home/view/home-view';
 
 // ----------------------------------------------------------------------
@@ -37,5 +39,20 @@ export default async function Page() {
     getWhatsAppLink('id').catch(() => null),
   ]);
 
-  return <HomeView faqGroups={faqGroups} waLink={waLink} />;
+  // Organization + WebSite structured data (knowledge panel / brand info).
+  const jsonLd = [
+    organizationJsonLd({ waLink: waLink ?? CONTACT.wa, email: CONTACT.email }),
+    webSiteJsonLd(),
+  ];
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLdScript(jsonLd) }}
+      />
+
+      <HomeView faqGroups={faqGroups} waLink={waLink} />
+    </>
+  );
 }

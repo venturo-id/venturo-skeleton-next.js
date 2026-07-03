@@ -68,11 +68,11 @@ export function ArticleListView() {
     [router, buildUrl]
   );
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      router.push(buildUrl({ page: newPage > 1 ? String(newPage) : '' }));
-    },
-    [router, buildUrl]
+  // Nomor halaman dirender sebagai <a> asli (crawlable); navigasinya tetap
+  // client-side lewat RouterLink.
+  const buildPageHref = useCallback(
+    (newPage: number) => buildUrl({ page: newPage > 1 ? String(newPage) : '' }),
+    [buildUrl]
   );
 
   const { data, isPending, isError, isFetching, isPlaceholderData } = articlesQuery;
@@ -133,7 +133,7 @@ export function ArticleListView() {
             loading={isPending}
             page={page}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            buildPageHref={buildPageHref}
           />
         )}
       </Box>

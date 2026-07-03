@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `Blank` };
+export const metadata: Metadata = { title: `Blank`, robots: { index: false, follow: false } };
 
 export default function Page() {
   return (

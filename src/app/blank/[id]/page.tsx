@@ -55,5 +55,5 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const data = await fetchItem(id);
 
-  return { title: `Item ${data?.id}` };
+  return { title: `Item ${data?.id}`, robots: { index: false, follow: false } };
 }

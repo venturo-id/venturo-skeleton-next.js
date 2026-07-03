@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { CONFIG } from 'src/global-config';
-import { articleJsonLd, toJsonLdScript } from 'src/lib/seo';
 import { ApiError, getArticle, getArticles } from 'src/lib/api';
+import { articleJsonLd, toJsonLdScript, breadcrumbListJsonLd } from 'src/lib/seo';
 
 import { ArticleDetailsView } from 'src/sections/article/view/article-details-view';
 
@@ -99,7 +99,15 @@ export default async function Page({ params }: Props) {
     .then((result) => result.articles.filter((item) => item.slug !== slug).slice(0, 3))
     .catch(() => []);
 
-  const jsonLd = articleJsonLd(article, `${CONFIG.siteUrl}/article/${slug}/`);
+  // Article + BreadcrumbList (breadcrumb visualnya dirender di view).
+  const jsonLd = [
+    articleJsonLd(article, `${CONFIG.siteUrl}/article/${slug}/`),
+    breadcrumbListJsonLd([
+      { name: 'Home', url: `${CONFIG.siteUrl}/` },
+      { name: 'Article', url: `${CONFIG.siteUrl}/article/` },
+      { name: article.title },
+    ]),
+  ];
 
   return (
     <>

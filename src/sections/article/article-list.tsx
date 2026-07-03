@@ -6,7 +6,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
 import CardContent from '@mui/material/CardContent';
+import PaginationItem from '@mui/material/PaginationItem';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
+
+import { RouterLink } from 'src/routes/components';
 
 import { ArticleItem } from './article-item';
 
@@ -21,7 +24,8 @@ type ArticleListProps = {
   loading?: boolean;
   page: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  /** Href untuk nomor halaman — pagination harus berupa <a> asli agar crawlable. */
+  buildPageHref: (page: number) => string;
 };
 
 export function ArticleList({
@@ -29,7 +33,7 @@ export function ArticleList({
   loading = false,
   page,
   totalPages,
-  onPageChange,
+  buildPageHref,
 }: ArticleListProps) {
   return (
     <>
@@ -58,7 +62,13 @@ export function ArticleList({
         <Pagination
           count={totalPages}
           page={page}
-          onChange={(event, newPage) => onPageChange(newPage)}
+          renderItem={(item) =>
+            item.page && !item.disabled ? (
+              <PaginationItem component={RouterLink} href={buildPageHref(item.page)} {...item} />
+            ) : (
+              <PaginationItem {...item} />
+            )
+          }
           sx={{
             py: { xs: 8, md: 10 },
             [`& .${paginationClasses.ul}`]: { justifyContent: 'center' },
