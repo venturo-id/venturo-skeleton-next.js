@@ -47,3 +47,6 @@ next-env.d.ts
 # local configs & certificates
 *.pem
 .ncurc.js
+
+# laporan PDF hasil generate — jangan ikut commit
+*.pdf
