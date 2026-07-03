@@ -17,12 +17,10 @@ import { RouterLink } from 'src/routes/components';
 
 import { Logo } from 'src/components/logo';
 
-import { langs } from '../langs-config';
 import { SimpleCompactContent } from './content';
 import { MainSection } from '../core/main-section';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
-import { LanguagePopover } from '../components/language-popover';
 
 // ----------------------------------------------------------------------
 
@@ -70,9 +68,6 @@ export function SimpleLayout({
           >
             FAQ
           </Link>
-
-          {/** @slot Language popover */}
-          <LanguagePopover data={langs} />
         </Box>
       ),
     };
