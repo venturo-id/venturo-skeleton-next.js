@@ -10,7 +10,7 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
 // Data-only import: kontak fallback yang sama dengan section home.
-import { CONTACT } from 'src/sections/_home/home-data';
+import { CONTACT } from 'src/sections/home/home-data';
 
 // ----------------------------------------------------------------------
 

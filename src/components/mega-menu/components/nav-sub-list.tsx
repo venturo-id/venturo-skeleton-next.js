@@ -20,7 +20,7 @@ export function NavSubList({ data, slotProps, ...other }: NavSubListProps) {
   return (
     <>
       {data?.map((list) => (
-        <NavLi key={list?.subheader ?? list.items[0].title} {...other}>
+        <NavLi key={list?.subheader ?? list.items[0]?.title} {...other}>
           {list?.subheader && (
             <Typography
               noWrap

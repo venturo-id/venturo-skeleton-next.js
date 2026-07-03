@@ -4,8 +4,8 @@ import { CONFIG } from 'src/global-config';
 import { getFaqGroups, getWhatsAppLink } from 'src/lib/api';
 import { webSiteJsonLd, toJsonLdScript, organizationJsonLd } from 'src/lib/seo';
 
-import { CONTACT } from 'src/sections/_home/home-data';
-import { HomeView } from 'src/sections/_home/view/home-view';
+import { CONTACT } from 'src/sections/home/home-data';
+import { HomeView } from 'src/sections/home/view/home-view';
 
 // ----------------------------------------------------------------------
 

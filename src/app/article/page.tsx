@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
+import { paths, pathWithSlash } from 'src/routes/paths';
+
 import { getQueryClient } from 'src/lib/query';
 import {
   articleKeys,
@@ -36,7 +38,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     // Paginated pages are self-canonical; search/category variants canonicalize
     // to the root list and are kept out of the index.
     alternates: {
-      canonical: !isFiltered && page > 1 ? `/article/?page=${page}` : '/article/',
+      canonical:
+        !isFiltered && page > 1
+          ? `${pathWithSlash(paths.article.root)}?page=${page}`
+          : pathWithSlash(paths.article.root),
     },
     ...(isFiltered && { robots: { index: false, follow: true } }),
   };

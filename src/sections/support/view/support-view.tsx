@@ -16,7 +16,7 @@ import { Iconify } from 'src/components/iconify';
 
 // Data-only import: fallback FAQ statis yang sama dengan section home,
 // supaya halaman ini tetap berisi saat API mati.
-import { FAQS } from 'src/sections/_home/home-data';
+import { FAQS } from 'src/sections/home/home-data';
 
 import { SupportNav } from '../support-nav';
 import { SupportHero } from '../support-hero';
@@ -55,7 +55,7 @@ export function SupportView({ faqGroups, waLink }: SupportViewProps) {
   const topics = resolvedGroups.map((group, index) => ({
     key: group.key,
     title: group.title,
-    icon: iconPath(TOPIC_ICONS[index % TOPIC_ICONS.length]),
+    icon: iconPath(TOPIC_ICONS[index % TOPIC_ICONS.length]!),
     entries: group.entries,
   }));
 

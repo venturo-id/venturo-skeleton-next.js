@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
+import { paths, pathWithSlash } from 'src/routes/paths';
+
 import { CONFIG } from 'src/global-config';
 import { ApiError, getArticle, getArticles } from 'src/lib/api';
 import { articleJsonLd, toJsonLdScript, breadcrumbListJsonLd } from 'src/lib/seo';
@@ -55,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     notFound();
   }
 
-  const canonical = `/article/${slug}/`;
+  const canonical = pathWithSlash(paths.article.details(slug));
 
   return {
     title: article.title,
@@ -101,10 +103,10 @@ export default async function Page({ params }: Props) {
 
   // Article + BreadcrumbList (breadcrumb visualnya dirender di view).
   const jsonLd = [
-    articleJsonLd(article, `${CONFIG.siteUrl}/article/${slug}/`),
+    articleJsonLd(article, `${CONFIG.siteUrl}${pathWithSlash(paths.article.details(slug))}`),
     breadcrumbListJsonLd([
       { name: 'Home', url: `${CONFIG.siteUrl}/` },
-      { name: 'Article', url: `${CONFIG.siteUrl}/article/` },
+      { name: 'Article', url: `${CONFIG.siteUrl}${pathWithSlash(paths.article.root)}` },
       { name: article.title },
     ]),
   ];

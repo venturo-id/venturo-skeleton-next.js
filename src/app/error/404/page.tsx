@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { NotFoundView } from 'src/sections/error/not-found-view';
+import { NotFoundView } from 'src/sections/error/view/not-found-view';
 
 // ----------------------------------------------------------------------
 

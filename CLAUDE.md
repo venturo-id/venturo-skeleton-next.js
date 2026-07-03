@@ -35,11 +35,11 @@ There is **no test framework** configured — `tsc:check` plus lint are the veri
 
 ### The page → view → section pattern (most important)
 
-Routing uses the **App Router** under [src/app/](src/app/) (route group `(home)` for the landing page). The layering is strict and pervasive:
+Routing uses the **App Router** under [src/app/](src/app/). Route-group rule: a group = a shared layout without adding a URL segment — `(home)` for the landing page, `(simple)` for compact utility pages (coming-soon, maintenance); other routes carry their own `layout.tsx`. The layering is strict and pervasive:
 
 - **`src/app/<route>/page.tsx`** — thin Server Component. Exports `metadata` (short title only — the root layout template appends "- Venturo") and does server-side data fetching, then renders a single `*View`. Keep these minimal.
 - **`src/app/<route>/layout.tsx`** — wraps children in a layout (`MainLayout` or `SimpleLayout`).
-- **`src/sections/<vertical>/view/<name>-view.tsx`** — the `'use client'` View that composes the page from section components.
+- **`src/sections/<vertical>/view/<name>-view.tsx`** — the `'use client'` View that composes the page from section components. This shape is mandatory for every vertical (including error/coming-soon/maintenance). Section dirs use plain kebab-case names (`home`, `article`, `support`, …); the ONLY underscore-prefixed dir is `_examples` (the component gallery — not a page vertical).
 - **`src/sections/<vertical>/<name>-section.tsx`** — individual presentational/section building blocks.
 
 When adding a page, follow this chain: create the section components and a `view`, then a thin `page.tsx` that imports the view. Don't put substantial UI directly in `app/`.
@@ -62,7 +62,7 @@ The gallery is dev-only by default: always visible under `yarn dev`, and in prod
 
 ### Routing
 
-All route strings are centralized in [src/routes/paths.ts](src/routes/paths.ts) as the `paths` object (use these, do not hardcode URLs; dynamic routes are functions, e.g. `paths.article.details(slug)`). Navigation helpers in [src/routes/hooks/](src/routes/hooks/) (`useRouter`, `usePathname`, `useParams`, `useSearchParams`) wrap `next/navigation`; prefer them and the `RouterLink` component over importing `next/navigation`/`next/link` directly.
+All route strings are centralized in [src/routes/paths.ts](src/routes/paths.ts) as the `paths` object (use these, do not hardcode URLs; dynamic routes are functions, e.g. `paths.article.details(slug)`). Trailing-slash policy: `paths.*` entries have NO trailing slash; crawler-facing URLs (canonical/sitemap/JSON-LD) must end with `/` — compose them with `pathWithSlash()` from the same module. Navigation helpers in [src/routes/hooks/](src/routes/hooks/) (`useRouter`, `usePathname`, `useParams`, `useSearchParams`) wrap `next/navigation`; prefer them and the `RouterLink` component over importing `next/navigation`/`next/link` directly.
 
 ### Theme system
 
@@ -82,7 +82,7 @@ Forms use **react-hook-form + Zod**. Do not use raw MUI inputs in forms — use 
 ## SEO rules
 
 - Root layout owns the title template (`%s - Venturo`), default description, OG/Twitter defaults, and the file-convention `opengraph-image.png`/`twitter-image.png`. Page-level `openGraph` REPLACES the root's whole object — restate everything (see `src/app/(home)/page.tsx`).
-- Above-the-fold/LCP content must be visible in SSR HTML: no entry animations on hero H1/CTA, hero images use `visibleByDefault` + `fetchPriority: 'high'` (see `src/sections/_home/home-hero.tsx`).
+- Above-the-fold/LCP content must be visible in SSR HTML: no entry animations on hero H1/CTA, hero images use `visibleByDefault` + `fetchPriority: 'high'` (see `src/sections/home/home-hero.tsx`).
 - `NEXT_PUBLIC_SITE_URL` is required for production builds (build fails without it).
 
 ## Conventions

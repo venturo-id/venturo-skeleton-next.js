@@ -8,6 +8,8 @@ import allIcons from './icon-sets';
 
 export const iconSets = Object.entries(allIcons).reduce((acc, [key, value]) => {
   const [prefix, iconName] = key.split(':');
+
+  if (!prefix || !iconName) return acc;
   const existingPrefix = acc.find((item) => item.prefix === prefix);
 
   if (existingPrefix) {

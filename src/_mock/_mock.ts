@@ -33,37 +33,37 @@ import {
 // ----------------------------------------------------------------------
 
 export const _mock = {
-  id: (index: number) => _id[index],
+  id: (index: number) => _id[index]!,
   time: (index: number) => fSub({ days: index, hours: index }),
-  boolean: (index: number) => _booleans[index],
-  role: (index: number) => _roles[index],
+  boolean: (index: number) => _booleans[index]!,
+  role: (index: number) => _roles[index]!,
   // Text
-  courseNames: (index: number) => _courseNames[index],
-  taskNames: (index: number) => _taskNames[index],
-  postTitle: (index: number) => _postTitles[index],
-  jobTitle: (index: number) => _jobTitles[index],
-  tourName: (index: number) => _tourNames[index],
-  productName: (index: number) => _productNames[index],
-  sentence: (index: number) => _sentences[index],
-  description: (index: number) => _descriptions[index],
+  courseNames: (index: number) => _courseNames[index]!,
+  taskNames: (index: number) => _taskNames[index]!,
+  postTitle: (index: number) => _postTitles[index]!,
+  jobTitle: (index: number) => _jobTitles[index]!,
+  tourName: (index: number) => _tourNames[index]!,
+  productName: (index: number) => _productNames[index]!,
+  sentence: (index: number) => _sentences[index]!,
+  description: (index: number) => _descriptions[index]!,
   // Contact
-  email: (index: number) => _emails[index],
-  phoneNumber: (index: number) => _phoneNumbers[index],
-  fullAddress: (index: number) => _fullAddress[index],
+  email: (index: number) => _emails[index]!,
+  phoneNumber: (index: number) => _phoneNumbers[index]!,
+  fullAddress: (index: number) => _fullAddress[index]!,
   // Name
-  firstName: (index: number) => _firstNames[index],
-  lastName: (index: number) => _lastNames[index],
-  fullName: (index: number) => _fullNames[index],
-  companyName: (index: number) => _companyNames[index],
+  firstName: (index: number) => _firstNames[index]!,
+  lastName: (index: number) => _lastNames[index]!,
+  fullName: (index: number) => _fullNames[index]!,
+  companyName: (index: number) => _companyNames[index]!,
   // Number
   number: {
-    percent: (index: number) => _percents[index],
-    rating: (index: number) => _ratings[index],
-    age: (index: number) => _ages[index],
-    price: (index: number) => _prices[index],
-    nativeS: (index: number) => _nativeS[index],
-    nativeM: (index: number) => _nativeM[index],
-    nativeL: (index: number) => _nativeL[index],
+    percent: (index: number) => _percents[index]!,
+    rating: (index: number) => _ratings[index]!,
+    age: (index: number) => _ages[index]!,
+    price: (index: number) => _prices[index]!,
+    nativeS: (index: number) => _nativeS[index]!,
+    nativeM: (index: number) => _nativeM[index]!,
+    nativeL: (index: number) => _nativeL[index]!,
   },
   // Media
   image: {
@@ -85,5 +85,5 @@ export const _mock = {
     [
       `${CONFIG.assetsDir}/assets/video/video-1.mp4`,
       `${CONFIG.assetsDir}/assets/video/video-2.mp4`,
-    ][index],
+    ][index]!,
 };

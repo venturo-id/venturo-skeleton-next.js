@@ -23,7 +23,7 @@ export type LanguagePopoverProps = IconButtonProps & {
 export function LanguagePopover({ data = [], sx, ...other }: LanguagePopoverProps) {
   const { open, onClose, onOpen, anchorEl } = usePopover();
 
-  const [locale, setLocale] = useState<string>(data[0].value);
+  const [locale, setLocale] = useState<string>(data[0]?.value ?? '');
 
   const currentLang = data.find((lang) => lang.value === locale);
 

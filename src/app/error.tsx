@@ -1,6 +1,6 @@
 'use client';
 
-import { Error500View } from 'src/sections/error/500-view';
+import { Error500View } from 'src/sections/error/view/500-view';
 
 // ----------------------------------------------------------------------
 // Global error boundary — catches server/render errors (e.g. the backend API

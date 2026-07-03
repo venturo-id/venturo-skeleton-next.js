@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { ComingSoonView } from 'src/sections/coming-soon/view';
+import { ComingSoonView } from 'src/sections/coming-soon/view/coming-soon-view';
 
 // ----------------------------------------------------------------------
 

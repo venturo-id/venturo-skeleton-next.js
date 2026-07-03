@@ -39,7 +39,7 @@ export function useParallax(mainApi?: EmblaCarouselType, parallax?: CarouselOpti
         let diffToTarget = scrollSnap - scrollProgress;
         const slidesInSnap = engine.slideRegistry[snapIndex];
 
-        slidesInSnap.forEach((slideIndex) => {
+        slidesInSnap?.forEach((slideIndex) => {
           if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
 
           if (engine.options.loop) {

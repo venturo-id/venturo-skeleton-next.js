@@ -59,7 +59,7 @@ const defaultValues: FieldsSchemaType = {
   multiSelect: [],
   // autocomplete
   singleAutocomplete: null,
-  multiAutocomplete: [OPTIONS[0]],
+  multiAutocomplete: [OPTIONS[0]!],
 };
 
 type Props = {

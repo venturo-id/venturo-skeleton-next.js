@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 
+import { paths, pathWithSlash } from 'src/routes/paths';
+
 import { getArticles } from 'src/lib/api';
 import { CONFIG } from 'src/global-config';
 
@@ -17,9 +19,9 @@ const MAX_PAGES = 50;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = [
-    { url: `${CONFIG.siteUrl}/` },
-    { url: `${CONFIG.siteUrl}/article/` },
-    { url: `${CONFIG.siteUrl}/support/` },
+    { url: `${CONFIG.siteUrl}${pathWithSlash(paths.home)}` },
+    { url: `${CONFIG.siteUrl}${pathWithSlash(paths.article.root)}` },
+    { url: `${CONFIG.siteUrl}${pathWithSlash(paths.support)}` },
   ];
 
   const articleEntries: MetadataRoute.Sitemap = [];
@@ -43,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           const lastModified = article.updated_at ?? article.published_at;
 
           return {
-            url: `${CONFIG.siteUrl}/article/${article.slug}/`,
+            url: `${CONFIG.siteUrl}${pathWithSlash(paths.article.details(article.slug))}`,
             ...(lastModified && { lastModified }),
           };
         })

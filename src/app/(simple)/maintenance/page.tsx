@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { MaintenanceView } from 'src/sections/maintenance/view';
+import { MaintenanceView } from 'src/sections/maintenance/view/maintenance-view';
 
 // ----------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { Error500View } from 'src/sections/error/500-view';
+import { Error500View } from 'src/sections/error/view/500-view';
 
 // ----------------------------------------------------------------------
 

@@ -83,7 +83,7 @@ const DEMO_COMPONENTS = [
         <Image
           alt="1/1"
           ratio="1/1"
-          src={IMAGES[0].url}
+          src={IMAGES[0]!.url}
           sx={{ borderRadius: 2 }}
           slotProps={{
             overlay: {
@@ -97,7 +97,7 @@ const DEMO_COMPONENTS = [
         <Image
           alt="1/1"
           ratio="1/1"
-          src={IMAGES[1].url}
+          src={IMAGES[1]!.url}
           sx={{ borderRadius: 2 }}
           slotProps={{
             overlay: {
@@ -111,7 +111,7 @@ const DEMO_COMPONENTS = [
         <Image
           alt="1/1"
           ratio="1/1"
-          src={IMAGES[1].url}
+          src={IMAGES[1]!.url}
           sx={{ borderRadius: 2 }}
           slotProps={{
             overlay: {
@@ -125,7 +125,7 @@ const DEMO_COMPONENTS = [
         <Image
           alt="1/1"
           ratio="1/1"
-          src={IMAGES[1].url}
+          src={IMAGES[1]!.url}
           sx={{ borderRadius: 2 }}
           slotProps={{
             overlay: {

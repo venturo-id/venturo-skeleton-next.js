@@ -93,5 +93,5 @@ export function getVariant(variant = 'slideInUp', distance = 160): Variants {
     }),
   };
 
-  return variants[variant];
+  return variants[variant]!;
 }

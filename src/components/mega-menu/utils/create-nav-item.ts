@@ -47,7 +47,7 @@ export function createNavItem({
 
   if (info && render?.navInfo && Array.isArray(info)) {
     const [key, value] = info;
-    const element = render.navInfo(value)[key];
+    const element = render.navInfo(value!)[key!];
 
     renderInfo = element ? cloneElement(element) : null;
   } else {

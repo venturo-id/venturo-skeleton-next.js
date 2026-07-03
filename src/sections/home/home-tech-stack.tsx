@@ -54,7 +54,8 @@ function Category({ group }: { group: Group }) {
 }
 
 export function HomeTechStack() {
-  const [web, mobile, ui] = TECH_STACK.groups;
+  // TECH_STACK.groups selalu 3 entri (lihat home-data.ts)
+  const [web, mobile, ui] = TECH_STACK.groups as [Group, Group, Group];
 
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
