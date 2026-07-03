@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 
-import { CONFIG } from 'src/global-config';
-
 import { FormValidationView } from 'src/sections/_examples/form-validation-view';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `Form validation | Components - ${CONFIG.appName}` };
+export const metadata: Metadata = { title: `Form validation | Components` };
 
 export default function Page() {
   return <FormValidationView />;

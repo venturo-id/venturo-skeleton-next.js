@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 
-import { CONFIG } from 'src/global-config';
-
 import { LightboxView } from 'src/sections/_examples/lightbox-view';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `Lightbox | Components - ${CONFIG.appName}` };
+export const metadata: Metadata = { title: `Lightbox | Components` };
 
 export default function Page() {
   return <LightboxView />;

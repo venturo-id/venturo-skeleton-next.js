@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 
-import { CONFIG } from 'src/global-config';
-
 import { LabelView } from 'src/sections/_examples/label-view';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `Label | Components - ${CONFIG.appName}` };
+export const metadata: Metadata = { title: `Label | Components` };
 
 export default function Page() {
   return <LabelView />;

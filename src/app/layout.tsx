@@ -3,7 +3,7 @@ import 'src/global.css';
 import type { Metadata, Viewport } from 'next';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 
 import { CONFIG } from 'src/global-config';
 import { QueryProvider } from 'src/lib/query';
@@ -26,6 +26,22 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(CONFIG.siteUrl),
+  // Child pages export a short title only — this template appends the brand.
+  // Pages needing a fully custom title use `title: { absolute: '...' }`.
+  title: {
+    default: CONFIG.appName,
+    template: `%s - ${CONFIG.appName}`,
+  },
+  description:
+    'Venturo adalah software house di Malang dengan 130+ talenta dedicated team untuk pengembangan software, outsourcing programmer, dan konsultasi IT.',
+  openGraph: {
+    type: 'website',
+    siteName: CONFIG.appName,
+    locale: 'id_ID',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
   icons: [
     {
       rel: 'icon',
@@ -46,7 +62,7 @@ type RootLayoutProps = {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <body>
         <InitColorSchemeScript
           attribute={themeConfig.cssVariables.colorSchemeSelector}

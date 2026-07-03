@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // Transient backend failure: fall back to minimal metadata — throwing
     // from generateMetadata bypasses error.tsx and yields a bare 500. The
     // page body re-throws and gets the branded error boundary instead.
-    return { title: 'Article - Venturo' };
+    return { title: 'Article' };
   }
 
   if (!article) {
@@ -58,13 +58,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `/article/${slug}/`;
 
   return {
-    title: `${article.title} - Venturo`,
+    title: article.title,
     description: article.excerpt,
     alternates: { canonical },
     openGraph: {
       type: 'article',
       url: canonical,
-      siteName: 'Venturo',
+      siteName: CONFIG.appName,
       title: article.title,
       description: article.excerpt,
       publishedTime: article.published_at ?? undefined,

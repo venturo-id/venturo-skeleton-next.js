@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { CONFIG } from 'src/global-config';
 
 // ----------------------------------------------------------------------
 // Reference: dynamic route recipe — async data fetch + static params (SSG) +
@@ -57,5 +56,5 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const data = await fetchItem(id);
 
-  return { title: `Item ${data?.id} - ${CONFIG.appName}` };
+  return { title: `Item ${data?.id}` };
 }

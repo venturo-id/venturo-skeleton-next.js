@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 
-import { CONFIG } from 'src/global-config';
-
 import { CarouselView } from 'src/sections/_examples/carousel-view';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `Carousel | Components - ${CONFIG.appName}` };
+export const metadata: Metadata = { title: `Carousel | Components` };
 
 export default function Page() {
   return <CarouselView />;

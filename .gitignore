@@ -9,6 +9,9 @@ yarn-error.log*
 /.pnp
 .pnp.*
 
+# yarn is the only package manager — never commit an npm lockfile
+package-lock.json
+
 # yarn berry
 /.yarn/*
 !/.yarn/patches
@@ -25,8 +28,9 @@ yarn-error.log*
 /dist
 /build
 
-# environment variables
+# environment variables (.env.example is the committed template)
 .env*
+!.env.example
 
 # deployment
 .vercel

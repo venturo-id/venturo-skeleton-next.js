@@ -1,8 +1,8 @@
 {
-  "name": "@zone-kit/next-ts",
-  "author": "Minimals",
-  "version": "4.6.0",
-  "description": "Next & TypeScript",
+  "name": "@venturo/skeleton-next",
+  "author": "Venturo",
+  "version": "0.1.0",
+  "description": "Venturo company-profile skeleton — Next.js 16 + MUI 9 (Zone UI v4.6.0 base)",
   "private": true,
   "scripts": {
     "dev": "next dev -p 8002",
@@ -13,11 +13,10 @@
     "lint:print": "npx eslint --print-config eslint.config.mjs > eslint-show-config.json",
     "fm:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "fm:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "fix:all": "npm run lint:fix && npm run fm:fix",
+    "fix:all": "yarn lint:fix && yarn fm:fix",
     "clean": "rm -rf node_modules .next out dist build",
     "re:dev": "yarn clean && yarn install && yarn dev",
     "re:build": "yarn clean && yarn install && yarn build",
-    "re:build-npm": "npm run clean && npm install && npm run build",
     "tsc:watch": "tsc --noEmit --watch",
     "tsc:print": "tsc --showConfig",
     "tsc:check": "tsc --noEmit --pretty"

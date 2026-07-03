@@ -1,17 +1,32 @@
 import type { Metadata } from 'next';
 
+import { CONFIG } from 'src/global-config';
 import { getFaqGroups, getWhatsAppLink } from 'src/lib/api';
 
 import { HomeView } from 'src/sections/_home/view/home-view';
 
 // ----------------------------------------------------------------------
 
+const TITLE = 'Jasa Outsourcing Programmer Malang | Software House Venturo';
+const DESCRIPTION =
+  'Venturo adalah jasa outsource programmer terbesar di Malang dengan 130+ talenta dedicated team. Garansi 30 hari, supervisor berpengalaman, laporan progres mingguan. Konsultasi gratis.';
+
 export const metadata: Metadata = {
-  title: 'Jasa Outsourcing Programmer Malang | Software House Venturo',
-  description:
-    'Venturo adalah jasa outsource programmer terbesar di Malang dengan 130+ talenta dedicated team. Garansi 30 hari, supervisor berpengalaman, laporan progres mingguan. Konsultasi gratis.',
-  keywords:
-    'outsourcing programmer malang,software house malang,jasa pembuatan software,dedicated team',
+  // Full custom title — `absolute` opts out of the root '%s - Venturo' template.
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
+  alternates: { canonical: '/' },
+  // A page-level openGraph REPLACES the root layout's whole openGraph object
+  // (and drops the file-convention og:image), so restate everything here.
+  openGraph: {
+    type: 'website',
+    siteName: CONFIG.appName,
+    locale: 'id_ID',
+    url: '/',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ['/opengraph-image.png'],
+  },
 };
 
 export default async function Page() {

@@ -9,17 +9,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: [
-        '/components/',
-        '/blank/',
-        '/error/',
-        '/coming-soon/',
-        '/maintenance/',
-        '/centered/',
-        '/verify/',
-        '/reset-password/',
-        '/update-password/',
-      ],
+      disallow: ['/components/', '/blank/', '/error/', '/coming-soon/', '/maintenance/'],
     },
     sitemap: `${CONFIG.siteUrl}/sitemap.xml`,
   };

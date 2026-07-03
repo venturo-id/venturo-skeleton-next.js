@@ -1,7 +1,6 @@
 'use client';
 
 import { Fragment } from 'react';
-import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
@@ -11,9 +10,12 @@ import Typography from '@mui/material/Typography';
 
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { varFade, MotionViewport, AnimateCountUp } from 'src/components/animate';
+import { AnimateCountUp } from 'src/components/animate';
 
 import { HERO, asset, CONTACT } from './home-data';
+
+// Above-the-fold = LCP: no entry animations here — SSR HTML must ship the
+// heading and the <img> fully visible (crawlers + LCP can't wait for JS).
 
 // ----------------------------------------------------------------------
 
@@ -41,62 +43,49 @@ export function HomeHero({ waLink }: HomeHeroProps) {
             flexDirection: { xs: 'column', md: 'row' },
           }}
         >
-          <MotionViewport sx={{ flex: 1 }}>
-            <m.div variants={varFade('inUp')}>
-              <Box
-                sx={{
-                  px: 1.5,
-                  py: 0.5,
-                  mb: 3,
-                  borderRadius: 1,
-                  typography: 'subtitle2',
-                  color: 'primary.dark',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 0.75,
-                  bgcolor: 'primary.lighter',
-                }}
-              >
-                <Iconify width={18} icon="solar:check-circle-bold" />
-                {HERO.badge}
-              </Box>
-            </m.div>
+          <Box sx={{ flex: 1 }}>
+            <Box
+              sx={{
+                px: 1.5,
+                py: 0.5,
+                mb: 3,
+                borderRadius: 1,
+                typography: 'subtitle2',
+                color: 'primary.dark',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.75,
+                bgcolor: 'primary.lighter',
+              }}
+            >
+              <Iconify width={18} icon="solar:check-circle-bold" />
+              {HERO.badge}
+            </Box>
 
-            <Typography component={m.h1} variants={varFade('inUp')} variant="h1" sx={{ mb: 3 }}>
+            <Typography component="h1" variant="h1" sx={{ mb: 3 }}>
               {HERO.title}
             </Typography>
 
-            <Typography
-              component={m.p}
-              variants={varFade('inUp')}
-              sx={{ mb: 4, maxWidth: 520, color: 'text.secondary' }}
-            >
+            <Typography sx={{ mb: 4, maxWidth: 520, color: 'text.secondary' }}>
               {HERO.description}
             </Typography>
 
-            <Box component={m.div} variants={varFade('inUp')} sx={{ mb: 5 }}>
+            <Box sx={{ mb: 5 }}>
               <Button
                 size="large"
                 color="primary"
                 variant="contained"
                 href={waLink ?? CONTACT.wa}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
               >
                 {HERO.cta}
               </Button>
             </Box>
-          </MotionViewport>
+          </Box>
 
-          <Box
-            component={m.div}
-            initial={{ opacity: 0, scale: 0.92 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            sx={{ flex: 1, width: 1 }}
-          >
+          <Box sx={{ flex: 1, width: 1 }}>
             <Box sx={{ width: 1, position: 'relative' }}>
               <Box
                 aria-hidden
@@ -112,6 +101,8 @@ export function HomeHero({ waLink }: HomeHeroProps) {
                 alt={HERO.title}
                 src={asset('hero-team.jpg')}
                 ratio="16/9"
+                visibleByDefault
+                slotProps={{ img: { fetchPriority: 'high' } }}
                 sx={{
                   position: 'relative',
                   borderRadius: 3,

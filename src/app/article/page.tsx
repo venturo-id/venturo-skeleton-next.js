@@ -31,7 +31,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const isFiltered = Boolean(search || category);
 
   return {
-    title: 'Article - Venturo',
+    title: 'Article',
     description: DESCRIPTION,
     // Paginated pages are self-canonical; search/category variants canonicalize
     // to the root list and are kept out of the index.

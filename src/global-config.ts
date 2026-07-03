@@ -3,7 +3,7 @@ import packageJson from '../package.json';
 // ----------------------------------------------------------------------
 
 export const CONFIG = {
-  appName: 'Zone UI',
+  appName: 'Venturo',
   appVersion: packageJson.version,
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
   googleMapApiKey: process.env.NEXT_PUBLIC_MAP_API ?? '',
@@ -18,16 +18,21 @@ export const CONFIG = {
    * endpoint yang me-resolve tenant via X-Client-Slug.
    */
   clientSlug: process.env.NEXT_PUBLIC_CLIENT_SLUG ?? '',
-  /** Public site origin — canonical URLs, OG tags, sitemap, robots. */
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:8002',
+  /**
+   * Public site origin — canonical URLs, OG tags, sitemap, robots.
+   * Trailing slashes are stripped so `${siteUrl}/path` never yields `//`.
+   */
+  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:8002').replace(/\/+$/, ''),
 };
 
+// Fail the production build instead of silently publishing localhost URLs
+// to sitemap/canonical/OG (dev keeps the localhost fallback).
 if (
   typeof window === 'undefined' &&
   process.env.NODE_ENV === 'production' &&
   !process.env.NEXT_PUBLIC_SITE_URL
 ) {
-  console.warn(
-    '[global-config] NEXT_PUBLIC_SITE_URL is not set — canonical/OG/sitemap URLs will point at http://localhost:8002'
+  throw new Error(
+    '[global-config] NEXT_PUBLIC_SITE_URL is required in production — canonical/OG/sitemap URLs would point at http://localhost:8002'
   );
 }
