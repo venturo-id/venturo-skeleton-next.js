@@ -40,7 +40,7 @@ export function HomeFloatingCta({ waLink }: HomeFloatingCtaProps) {
       <Box
         component="img"
         alt="WhatsApp"
-        src={asset('ikon-whatsapp-venturo.png')}
+        src={asset('ikon-whatsapp-venturo.webp')}
         sx={{ width: 28, height: 28, objectFit: 'contain' }}
       />
       <Box>

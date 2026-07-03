@@ -20,6 +20,7 @@ function FeatureItem({ item }: { item: Feature }) {
     <Box component={m.div} variants={varFade('inUp')} sx={{ gap: 2, display: 'flex' }}>
       <Box
         component="img"
+        loading="lazy"
         alt={item.title}
         src={item.icon}
         sx={{ width: 40, height: 40, flexShrink: 0, objectFit: 'contain' }}
@@ -65,6 +66,7 @@ export function HomeManagement() {
 
           <Box
             component={m.img}
+            loading="lazy"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

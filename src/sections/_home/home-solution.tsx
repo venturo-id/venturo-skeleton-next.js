@@ -34,6 +34,7 @@ export function HomeSolution() {
                   >
                     <Box
                       component="img"
+                      loading="lazy"
                       alt={item.title}
                       src={item.icon}
                       sx={{ width: 44, height: 44, flexShrink: 0, objectFit: 'contain' }}
@@ -54,6 +55,7 @@ export function HomeSolution() {
             <Box sx={{ flex: 1, position: 'relative', minHeight: { xs: 320, md: 'auto' } }}>
               <Box
                 component="img"
+                loading="lazy"
                 alt={SOLUTION.caption}
                 src={SOLUTION.image}
                 sx={{ inset: 0, width: 1, height: 1, position: 'absolute', objectFit: 'cover' }}

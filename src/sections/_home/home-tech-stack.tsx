@@ -36,6 +36,7 @@ function Category({ group }: { group: Group }) {
           <Box
             key={logo}
             component="img"
+            loading="lazy"
             alt={logo}
             src={asset(logo)}
             sx={{

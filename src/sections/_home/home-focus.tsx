@@ -42,6 +42,7 @@ export function HomeFocus() {
 
           <Box
             component="img"
+            loading="lazy"
             alt={FOCUS.highlight}
             src={FOCUS.image}
             sx={{

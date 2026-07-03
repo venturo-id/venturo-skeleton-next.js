@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-
 // ----------------------------------------------------------------------
 // Reference: dynamic route recipe — async data fetch + static params (SSG) +
 // dynamic metadata. Preserved from the original `marketing/case-studies/[id]`

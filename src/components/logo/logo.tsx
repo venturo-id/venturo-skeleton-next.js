@@ -16,8 +16,8 @@ import { logoClasses } from './classes';
 
 // ----------------------------------------------------------------------
 
-const fullLogoSrc = `${CONFIG.assetsDir}/assets/venturo/logo-venturo-software-house-malang.png`;
-const singleLogoSrc = `${CONFIG.assetsDir}/assets/venturo/logo-venturo-icon.png`;
+const fullLogoSrc = `${CONFIG.assetsDir}/assets/venturo/logo-venturo-software-house-malang.webp`;
+const singleLogoSrc = `${CONFIG.assetsDir}/assets/venturo/logo-venturo-icon.webp`;
 
 export type LogoProps = LinkProps & {
   isSingle?: boolean;

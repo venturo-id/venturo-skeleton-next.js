@@ -99,7 +99,7 @@ export function HomeHero({ waLink }: HomeHeroProps) {
               />
               <Image
                 alt={HERO.title}
-                src={asset('hero-team.jpg')}
+                src={asset('hero-team.webp')}
                 ratio="16/9"
                 visibleByDefault
                 slotProps={{ img: { fetchPriority: 'high' } }}

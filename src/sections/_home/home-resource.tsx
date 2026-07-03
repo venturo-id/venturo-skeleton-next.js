@@ -26,7 +26,7 @@ export function HomeResource() {
         py: { xs: 8, md: 12 },
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage: `url(${asset('binary-bg-light.jpg')})`,
+        backgroundImage: `url(${asset('binary-bg-light.webp')})`,
       }}
     >
       <Container>
@@ -57,6 +57,7 @@ export function HomeResource() {
           >
             <Box
               component="img"
+              loading="lazy"
               alt={RESOURCE.videoLabel}
               src={RESOURCE.videoThumb}
               sx={{ width: 1, display: 'block', aspectRatio: '16/9', objectFit: 'cover' }}

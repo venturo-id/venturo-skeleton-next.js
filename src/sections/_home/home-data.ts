@@ -30,20 +30,20 @@ export const HERO = {
  * Untuk menambah klien: taruh file di folder itu lalu daftarkan di sini.
  */
 export const CLIENTS: { name: string; logo: string }[] = [
-  { name: 'Qoin', logo: asset('clients/qoin.png') },
-  { name: 'Shipper', logo: asset('clients/shipper.png') },
-  { name: 'Hayyu Skin Clinic', logo: asset('clients/hayyu.png') },
-  { name: 'Bobobox', logo: asset('clients/bobobox.png') },
-  { name: 'Liputan 6', logo: asset('clients/liputan6.png') },
-  { name: 'Powmeals', logo: asset('clients/powmeals.png') },
-  { name: 'Bolong', logo: asset('clients/bolong.png') },
-  { name: 'Majoo', logo: asset('clients/majoo.png') },
-  { name: 'Pudu', logo: asset('clients/pudu.png') },
-  { name: 'Humanis', logo: asset('clients/humanis.png') },
-  { name: 'Wisdom Crowd', logo: asset('clients/wisdom-crowd.png') },
-  { name: 'Bio Farma', logo: asset('clients/biofarma.png') },
-  { name: 'Kemenkes', logo: asset('clients/kemenkes.png') },
-  { name: 'Olahkarsa', logo: asset('clients/olahkarsa.png') },
+  { name: 'Qoin', logo: asset('clients/qoin.webp') },
+  { name: 'Shipper', logo: asset('clients/shipper.webp') },
+  { name: 'Hayyu Skin Clinic', logo: asset('clients/hayyu.webp') },
+  { name: 'Bobobox', logo: asset('clients/bobobox.webp') },
+  { name: 'Liputan 6', logo: asset('clients/liputan6.webp') },
+  { name: 'Powmeals', logo: asset('clients/powmeals.webp') },
+  { name: 'Bolong', logo: asset('clients/bolong.webp') },
+  { name: 'Majoo', logo: asset('clients/majoo.webp') },
+  { name: 'Pudu', logo: asset('clients/pudu.webp') },
+  { name: 'Humanis', logo: asset('clients/humanis.webp') },
+  { name: 'Wisdom Crowd', logo: asset('clients/wisdom-crowd.webp') },
+  { name: 'Bio Farma', logo: asset('clients/biofarma.webp') },
+  { name: 'Kemenkes', logo: asset('clients/kemenkes.webp') },
+  { name: 'Olahkarsa', logo: asset('clients/olahkarsa.webp') },
 ];
 
 // ----------------------------------------------------------------------
@@ -51,8 +51,8 @@ export const CLIENTS: { name: string; logo: string }[] = [
 export const PROBLEM = {
   caption: 'The Problem',
   title: 'Proyek IT Anda Bermasalah?',
-  // TODO: user akan kirim foto "stressed man" → taruh di public/assets/venturo/problem-stress.jpg
-  image: asset('problem-stress.jpg'),
+  // TODO: user akan kirim foto "stressed man" → taruh di public/assets/venturo/problem-stress.webp
+  image: asset('problem-stress.webp'),
   items: [
     {
       title: 'Kesulitan Menemukan Programmer yang Tepat',
@@ -81,35 +81,35 @@ export const PROBLEM = {
 export const SOLUTION = {
   caption: 'Stress-Free Solutions',
   title: 'Solusi Tanpa Drama untuk Proyek IT Anda',
-  image: asset('tim-expert-programmers.jpg'),
+  image: asset('tim-expert-programmers.webp'),
   items: [
     {
       title: 'Tim yang Berdedikasi',
-      icon: asset('ikon-tim-programmer-berdedikasi.png'),
+      icon: asset('ikon-tim-programmer-berdedikasi.webp'),
       description:
         'Bangun tim outsource full-time layaknya memiliki tim internal sendiri. Squad ini sepenuhnya fokus mengerjakan proyek Anda tanpa terbagi ke proyek lain.',
     },
     {
       title: 'Supervisor Berpengalaman',
-      icon: asset('ikon-quality-assurance-supervisi.png'),
+      icon: asset('ikon-quality-assurance-supervisi.webp'),
       description:
         'Setiap tim didukung supervisor senior yang memastikan kualitas melalui analisa, pendampingan, dan review dari berbagai proyek serupa.',
     },
     {
       title: 'Respon Cepat',
-      icon: asset('ikon-respon-cepat.png'),
+      icon: asset('ikon-respon-cepat.webp'),
       description:
         'Selama masa kontrak berjalan, tim kami siap memberikan dukungan respons cepat melalui grup messenger online bersama seluruh PIC proyek Anda.',
     },
     {
       title: 'Tes Otomatisasi',
-      icon: asset('ikon-otomatisasi-pengembangan-software.png'),
+      icon: asset('ikon-otomatisasi-pengembangan-software.webp'),
       description:
         'Pengujian otomatis untuk memastikan kualitas perangkat lunak secara cepat, akurat, konsisten, dan meminimalisir human error.',
     },
     {
       title: 'Laporan Progresif',
-      icon: asset('ikon-laporan-progres-proyek.png'),
+      icon: asset('ikon-laporan-progres-proyek.webp'),
       description:
         'Laporan progress detail diberikan setiap minggu, sehingga Anda selalu mendapat update perkembangan proyek secara transparan.',
     },
@@ -124,7 +124,7 @@ export const FOCUS = {
   description:
     'Venturo, jasa pembuatan software house Malang, siap membantu dengan programmer profesional yang bekerja seolah tim in-house Anda sendiri.',
   highlight: 'Tim IT Khusus Anda',
-  image: asset('diagram-outsourcing-tim-it-venturo.png'),
+  image: asset('diagram-outsourcing-tim-it-venturo.webp'),
   roles: [
     'Project Manager',
     'System Analyst',
@@ -142,41 +142,41 @@ export const MANAGEMENT = {
   caption: 'We Already Have a Good Management',
   title: 'Manajemen Proyek yang Sudah Teruji',
   description: 'Jasa outsourcing programmer, perusahaan IT di Malang terbaik.',
-  phone: asset('app-phone.png'),
+  phone: asset('app-phone.webp'),
   items: [
     {
       title: 'Roadmap untuk Timeline Planning',
-      icon: asset('ikon-penjadwalan-proyek.png'),
+      icon: asset('ikon-penjadwalan-proyek.webp'),
       description:
         'Roadmap berisi list task dan timeline project yang dapat Anda pantau setiap saat, dibuat berdasarkan kesepakatan dengan Anda.',
     },
     {
       title: 'Monitoring Sprint Mingguan',
-      icon: asset('ikon-monitoring-proyek.png'),
+      icon: asset('ikon-monitoring-proyek.webp'),
       description:
         'Mengontrol sprint dan memastikan programmer kami bekerja sesuai dengan waktu yang Anda beli.',
     },
     {
       title: 'Lacak Progress Terkini',
-      icon: asset('ikon-laporan-progres-proyek.png'),
+      icon: asset('ikon-laporan-progres-proyek.webp'),
       description:
         'Dengan sekali lihat, Anda dapat memantau modul mana yang sedang berjalan atau sudah selesai.',
     },
     {
       title: 'Tes Skenario untuk Mencegah Bug',
-      icon: asset('ikon-otomatisasi-pengembangan-software.png'),
+      icon: asset('ikon-otomatisasi-pengembangan-software.webp'),
       description:
         'Setiap use case dicatat secara rinci pada Test Scenario sebagai langkah antisipasi terhadap bug/error.',
     },
     {
       title: 'Layanan Maksimal untuk Klien',
-      icon: asset('garansi-bug-project-selesai.png'),
+      icon: asset('garansi-bug-project-selesai.webp'),
       description:
         'Kami menjamin pelayanan maksimal 48 jam penanganan bug dan improvement yang dapat Anda pantau.',
     },
     {
       title: 'Memantau Kinerja Setiap Squad',
-      icon: asset('ikon-quality-assurance-supervisi.png'),
+      icon: asset('ikon-quality-assurance-supervisi.webp'),
       description:
         'Setiap talenta memiliki target harian dan bulanan, dan bersaing untuk menjadi yang terbaik.',
     },
@@ -190,7 +190,7 @@ export const RESOURCE = {
   description:
     'Cari programmer terbaik di Malang? Venturo menghadirkan the largest programmer resource in Malang untuk kebutuhan outsourcing dan pengembangan software skala besar.',
   videoUrl: 'https://www.youtube.com/watch?v=1W35KcCQqww',
-  videoThumb: 'https://img.youtube.com/vi/1W35KcCQqww/maxresdefault.jpg',
+  videoThumb: asset('video-thumb-manajemen-proyek.webp'),
   videoLabel: 'Supervisor & Project Manager',
 };
 
@@ -202,7 +202,7 @@ export const SPECIAL_OFFER = {
   promo: 'khusus hingga 31 Mei 2026, siap menyelesaikan proyek IT Anda tanpa drama!',
   cta: 'Hubungi Kami Sekarang',
   note: 'Konsultasi gratis untuk kebutuhan bisnis Anda',
-  image: asset('person-arms.png'),
+  image: asset('person-arms.webp'),
 };
 
 // ----------------------------------------------------------------------
@@ -214,28 +214,28 @@ export const TECH_STACK = {
     {
       label: 'Web Programmer',
       logos: [
-        'logo-laravel.png',
-        'logo-golang.png',
-        'logo-nodejs.png',
-        'logo-react.png',
-        'logo-vuejs.png',
-        'logo-angularjs.png',
-        'logo-bootstrap.png',
-        'logo-tailwind-css.png',
-        'logo-mysql.png',
-        'logo-mongodb.png',
-        'logo-redis.png',
-        'logo-rabbitmq.png',
-        'logo-sentry.png',
+        'logo-laravel.webp',
+        'logo-golang.webp',
+        'logo-nodejs.webp',
+        'logo-react.webp',
+        'logo-vuejs.webp',
+        'logo-angularjs.webp',
+        'logo-bootstrap.webp',
+        'logo-tailwind-css.webp',
+        'logo-mysql.webp',
+        'logo-mongodb.webp',
+        'logo-redis.webp',
+        'logo-rabbitmq.webp',
+        'logo-sentry.webp',
       ],
     },
     {
       label: 'Mobile Programmer',
-      logos: ['logo-flutter.png', 'logo-kotlin.png', 'logo-swift.png', 'logo-firebase.png'],
+      logos: ['logo-flutter.webp', 'logo-kotlin.webp', 'logo-swift.webp', 'logo-firebase.webp'],
     },
     {
       label: 'UI / UX',
-      logos: ['logo-figma.png'],
+      logos: ['logo-figma.webp'],
     },
   ],
 };
@@ -293,5 +293,5 @@ export const CLOSING_CTA = {
     'Kami pastikan sistem bebas dari bug kritis pasca serah terima, dengan garansi perbaikan hingga',
   descriptionEnd: 'Jika Anda serius maka tim kami siap mendukung dari awal hingga selesai.',
   cta: 'Mulai Konsultasi',
-  image: asset('person-laptop.png'),
+  image: asset('person-laptop.webp'),
 };

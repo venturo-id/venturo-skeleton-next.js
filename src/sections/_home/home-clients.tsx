@@ -43,6 +43,7 @@ export function HomeClients() {
             >
               <Box
                 component="img"
+                loading="lazy"
                 alt={client.name}
                 src={client.logo}
                 sx={{ maxWidth: 150, maxHeight: 36, objectFit: 'contain' }}
