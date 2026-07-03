@@ -909,16 +909,6 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.28.5"
 
-"@base-ui/utils@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.npmjs.org/@base-ui/utils/-/utils-0.2.8.tgz"
-  integrity sha512-jvOi+c+ftGlGotNcKnzPVg2IhCaDTB6/6R3JeqdjdXktuAJi3wKH9T7+svuaKh1mmfVU11UWzUZVH74JDfi/wQ==
-  dependencies:
-    "@babel/runtime" "^7.29.2"
-    "@floating-ui/utils" "^0.2.11"
-    reselect "^5.1.1"
-    use-sync-external-store "^1.6.0"
-
 "@bramus/specificity@^2.4.2":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@bramus/specificity/-/specificity-2.4.2.tgz#aa8db8eb173fdee7324f82284833106adeecc648"
@@ -1161,11 +1151,6 @@
   resolved "https://registry.yarnpkg.com/@exodus/bytes/-/bytes-1.15.1.tgz#b13bc464ca162c17abf0837fb3a11aeab79e45d1"
   integrity sha512-S6mL0yNB/Abt9Ei4tq8gDhcczc4S3+vQ4ra7vxnAf+YHC02srtqxKKZghx2Dq6p0e66THKwR6r8N6P95wEty7Q==
 
-"@floating-ui/utils@^0.2.11":
-  version "0.2.11"
-  resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.11.tgz"
-  integrity sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==
-
 "@fontsource-variable/dm-sans@^5.2.8":
   version "5.2.8"
   resolved "https://registry.npmjs.org/@fontsource-variable/dm-sans/-/dm-sans-5.2.8.tgz"
@@ -1190,13 +1175,6 @@
   version "5.2.8"
   resolved "https://registry.npmjs.org/@fontsource/barlow/-/barlow-5.2.8.tgz"
   integrity sha512-iuFOnY4OI2cd1STrJ3NdJNzWjhcwv6JarmqfdoZzAmz9g0jTVjES86MNbuBxqVR3ydbTEjo4opEl24GXScRM7w==
-
-"@googlemaps/js-api-loader@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-2.0.2.tgz"
-  integrity sha512-bKVuTqatS8Jven5aFqVB7rCHF1VFEzpzyi0ruzO0GUR+A7m9oMqMgtnmpANj7kMYEvvhty8Fk7TnJ1MKjWHu+Q==
-  dependencies:
-    "@types/google.maps" "^3.53.1"
 
 "@hookform/resolvers@^5.2.2":
   version "5.2.2"
@@ -1537,19 +1515,6 @@
     prop-types "^15.8.1"
     react-is "^19.2.4"
 
-"@mui/x-data-grid@^9.1.0":
-  version "9.1.0"
-  resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-9.1.0.tgz"
-  integrity sha512-PcOfqdffQFDZ+6oCc5sEvOR6r3R24P1RTeVeF4YkEasEQU5gEzicNIzk9DmfGeDpQKALwSccbgZgYE/5cVongA==
-  dependencies:
-    "@babel/runtime" "^7.29.2"
-    "@mui/utils" "9.0.0"
-    "@mui/x-internals" "^9.1.0"
-    "@mui/x-virtualizer" "9.0.0-alpha.5"
-    clsx "^2.1.1"
-    prop-types "^15.8.1"
-    use-sync-external-store "^1.6.0"
-
 "@mui/x-date-pickers@^9.1.0":
   version "9.1.0"
   resolved "https://registry.npmjs.org/@mui/x-date-pickers/-/x-date-pickers-9.1.0.tgz"
@@ -1572,29 +1537,6 @@
     "@mui/utils" "9.0.0"
     reselect "^5.1.1"
     use-sync-external-store "^1.6.0"
-
-"@mui/x-tree-view@^9.1.0":
-  version "9.1.0"
-  resolved "https://registry.npmjs.org/@mui/x-tree-view/-/x-tree-view-9.1.0.tgz"
-  integrity sha512-Pht6/VS5cmKBCKr7MfbvS+XY4vPKpzDEKZVaSpUiv4ClnSsm9kJeSbzziA1MM1yeEmJx40XyNqZKUCslLO76kw==
-  dependencies:
-    "@babel/runtime" "^7.29.2"
-    "@base-ui/utils" "^0.2.8"
-    "@mui/utils" "9.0.0"
-    "@mui/x-internals" "^9.1.0"
-    "@types/react-transition-group" "^4.4.12"
-    clsx "^2.1.1"
-    prop-types "^15.8.1"
-    react-transition-group "^4.4.5"
-
-"@mui/x-virtualizer@9.0.0-alpha.5":
-  version "9.0.0-alpha.5"
-  resolved "https://registry.npmjs.org/@mui/x-virtualizer/-/x-virtualizer-9.0.0-alpha.5.tgz"
-  integrity sha512-A+aXadqFINeXm+fwWdc+NBRyVVUhFyUsfZmPt+ZiwrM84gov6DSIak8c6+qdWelcO3OykNQIIvFmwzGMmJxeEw==
-  dependencies:
-    "@babel/runtime" "^7.29.2"
-    "@mui/utils" "9.0.0"
-    "@mui/x-internals" "^9.1.0"
 
 "@mux/mux-data-google-ima@0.2.8":
   version "0.2.8"
@@ -1851,11 +1793,6 @@
   version "1.0.8"
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz"
   integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
-
-"@types/google.maps@^3.53.1", "@types/google.maps@^3.54.10":
-  version "3.58.1"
-  resolved "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.1.tgz"
-  integrity sha512-X9QTSvGJ0nCfMzYOnaVs/k6/4L+7F5uCS+4iUmkLEls6J9S/Phv+m/i3mDeyc49ZBgwab3EFO1HEoBY7k98EGQ==
 
 "@types/json-schema@^7.0.15":
   version "7.0.15"
@@ -2116,15 +2053,6 @@
   dependencies:
     native-promise-only "0.8.1"
     weakmap-polyfill "2.0.4"
-
-"@vis.gl/react-google-maps@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.npmjs.org/@vis.gl/react-google-maps/-/react-google-maps-1.8.3.tgz"
-  integrity sha512-DW7nEuvOJ299DmdBnvGiUARrgS/+sTEO1iJgG9J8YaErZqLoq7S4TJ22f3EjJvR4dti4L4gft43JEK77nnKXDw==
-  dependencies:
-    "@googlemaps/js-api-loader" "^2.0.2"
-    "@types/google.maps" "^3.54.10"
-    fast-deep-equal "^3.1.3"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"

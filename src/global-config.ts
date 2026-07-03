@@ -6,7 +6,8 @@ export const CONFIG = {
   appName: 'Venturo',
   appVersion: packageJson.version,
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
-  googleMapApiKey: process.env.NEXT_PUBLIC_MAP_API ?? '',
+  /** Tampilkan galeri referensi /components di build production (dev selalu tampil). */
+  showComponents: process.env.NEXT_PUBLIC_SHOW_COMPONENTS === 'true',
   /** Go backend base URL (marketplace-be). */
   apiUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
   /** Tenant slug sent as X-Company-Slug on every public API call. */
