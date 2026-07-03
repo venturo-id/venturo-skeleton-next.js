@@ -1,6 +1,7 @@
 'use client';
 
 import { m } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { useBoolean } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
@@ -9,10 +10,16 @@ import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 
 import { Iconify } from 'src/components/iconify';
-import { PlayerDialog } from 'src/components/player';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { asset, RESOURCE } from './home-data';
+
+// react-player berat — dialog baru dimuat (dan chunk-nya baru diunduh)
+// setelah user mengklik tombol play, bukan ikut bundle landing.
+const PlayerDialog = dynamic(
+  () => import('src/components/player').then((mod) => mod.PlayerDialog),
+  { ssr: false }
+);
 
 // ----------------------------------------------------------------------
 
@@ -92,13 +99,9 @@ export function HomeResource() {
         </Box>
       </Container>
 
-      <PlayerDialog
-        controls
-        src={RESOURCE.videoUrl}
-        open={openVideo.value}
-        playing={openVideo.value}
-        onClose={openVideo.onFalse}
-      />
+      {openVideo.value && (
+        <PlayerDialog controls open playing src={RESOURCE.videoUrl} onClose={openVideo.onFalse} />
+      )}
     </Box>
   );
 }

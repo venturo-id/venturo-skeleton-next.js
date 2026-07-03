@@ -1,6 +1,6 @@
 'use client';
 
-import { LazyMotion } from 'framer-motion';
+import { LazyMotion, MotionConfig } from 'framer-motion';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,8 @@ const loadFeaturesAsync = async () => import('./features').then((res) => res.def
 export function MotionLazy({ children }: MotionLazyProps) {
   return (
     <LazyMotion strict features={loadFeaturesAsync}>
-      {children}
+      {/* Semua animasi m.* menghormati preferensi OS reduced-motion (WCAG 2.3.3) */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </LazyMotion>
   );
 }

@@ -32,12 +32,12 @@ function Category({ group }: { group: Group }) {
           justifyContent: 'center',
         }}
       >
-        {group.logos.map((logo) => (
+        {group.logos.map(({ name, logo }) => (
           <Box
-            key={logo}
+            key={name}
             component="img"
             loading="lazy"
-            alt={logo}
+            alt={name}
             src={asset(logo)}
             sx={{
               maxWidth: 160,

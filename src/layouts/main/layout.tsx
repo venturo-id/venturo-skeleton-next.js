@@ -10,7 +10,6 @@ import type { LayoutSectionProps } from '../core/layout-section';
 import { useBoolean } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
 
 import { Logo } from 'src/components/logo';
 
@@ -19,7 +18,6 @@ import { NavMobile } from './nav/mobile';
 import { NavDesktop } from './nav/desktop';
 import { navData } from '../nav-config-main';
 import { MainSection } from '../core/main-section';
-import { Searchbar } from '../components/searchbar';
 import { MenuButton } from '../components/menu-button';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
@@ -51,11 +49,6 @@ export function MainLayout({
 
   const renderHeader = () => {
     const headerSlots: HeaderSectionProps['slots'] = {
-      topArea: (
-        <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
-          This is an info Alert.
-        </Alert>
-      ),
       leftArea: (
         <>
           {/** @slot Nav mobile */}
@@ -83,9 +76,6 @@ export function MainLayout({
               [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
             })}
           />
-
-          {/** @slot Searchbar */}
-          <Searchbar />
         </Box>
       ),
     };

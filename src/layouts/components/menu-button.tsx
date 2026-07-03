@@ -9,7 +9,7 @@ export type MenuButtonProps = IconButtonProps;
 
 export function MenuButton({ sx, ...other }: IconButtonProps) {
   return (
-    <IconButton color="inherit" sx={sx} {...other}>
+    <IconButton color="inherit" aria-label="Buka menu" sx={sx} {...other}>
       <SvgIcon>
         <path
           d="M5 18H13M5 12H19M5 6H13"

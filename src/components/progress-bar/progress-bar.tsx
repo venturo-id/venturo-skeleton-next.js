@@ -2,11 +2,12 @@
 
 import './styles.css';
 
-import NProgress from 'nprogress';
 import { useRef, useEffect } from 'react';
 import { isEqualPath } from 'minimal-shared/utils';
 
 import { usePathname } from 'src/routes/hooks';
+
+import { doneProgress, startProgress } from './tiny-progress';
 
 // ----------------------------------------------------------------------
 
@@ -44,13 +45,13 @@ function useProgressBar() {
       try {
         if (newUrl && !isEqualPath(newUrl, currentUrlRef.current, { deep: false })) {
           currentUrlRef.current = newUrl;
-          NProgress.start();
+          startProgress();
         }
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
           console.error('Navigation progress error:', error);
         }
-        NProgress.done();
+        doneProgress();
       }
     };
 
@@ -98,7 +99,7 @@ function useProgressBar() {
 
   // Completes the progress bar when pathname changes
   useEffect(() => {
-    const timeout = setTimeout(() => NProgress.done(), 100);
+    const timeout = setTimeout(() => doneProgress(), 100);
     return () => clearTimeout(timeout);
   }, [pathname]);
 }
@@ -106,12 +107,7 @@ function useProgressBar() {
 // ----------------------------------------------------------------------
 
 export function ProgressBar() {
-  useEffect(() => {
-    NProgress.configure({ showSpinner: false });
-    return () => {
-      NProgress.done();
-    };
-  }, []);
+  useEffect(() => () => doneProgress(), []);
 
   useProgressBar();
 

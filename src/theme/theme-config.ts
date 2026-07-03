@@ -38,9 +38,10 @@ export const themeConfig: ThemeConfig = {
    * Typography
    *************************************** */
   fontFamily: {
-    // Register custom fonts in 'src/global.css' before changing these
-    primary: 'DM Sans Variable',
-    secondary: 'Barlow',
+    // CSS variable dari next/font/local — didefinisikan di src/app/layout.tsx.
+    // Ganti font = ganti file woff2 di src/assets/fonts + definisi localFont.
+    primary: 'var(--font-dm-sans)',
+    secondary: 'var(--font-barlow)',
   },
   /** **************************************
    * Palette

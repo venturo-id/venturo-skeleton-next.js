@@ -28,13 +28,13 @@ export function HomeFloatingCta({ waLink }: HomeFloatingCtaProps) {
         position: 'fixed',
         alignItems: 'center',
         color: 'common.white',
-        bgcolor: '#1FA855',
+        bgcolor: '#0E7A3F',
         right: { xs: 16, md: 24 },
         bottom: { xs: 16, md: 24 },
         zIndex: (theme) => theme.zIndex.speedDial,
         boxShadow: (theme) => theme.customShadows.z16,
         transition: (theme) => theme.transitions.create('background-color'),
-        '&:hover': { bgcolor: '#178C46' },
+        '&:hover': { bgcolor: '#0B6332' },
       }}
     >
       <Box
@@ -47,9 +47,7 @@ export function HomeFloatingCta({ waLink }: HomeFloatingCtaProps) {
         <Typography variant="subtitle2" sx={{ lineHeight: 1.1 }}>
           Hubungi Kami
         </Typography>
-        <Typography variant="caption" sx={{ opacity: 0.9 }}>
-          Konsultasi 100% Gratis
-        </Typography>
+        <Typography variant="caption">Konsultasi 100% Gratis</Typography>
       </Box>
     </Link>
   );

@@ -1,12 +1,13 @@
-import NProgress from 'nprogress';
 import { useMemo, useCallback } from 'react';
 import { isEqualPath } from 'minimal-shared/utils';
 import { useRouter as useNextRouter } from 'next/navigation';
 
+import { startProgress } from 'src/components/progress-bar/tiny-progress';
+
 // ----------------------------------------------------------------------
 
 /**
- * Customized useRouter hook with NProgress integration.
+ * Customized useRouter hook with top progress-bar integration.
  */
 
 export function useRouter() {
@@ -18,7 +19,7 @@ export function useRouter() {
         typeof window !== 'undefined' &&
         !isEqualPath(href, window.location.href, { deep: false })
       ) {
-        NProgress.start();
+        startProgress();
       }
       nextRouter.push(href, options);
     },
@@ -31,7 +32,7 @@ export function useRouter() {
         typeof window !== 'undefined' &&
         !isEqualPath(href, window.location.href, { deep: false })
       ) {
-        NProgress.start();
+        startProgress();
       }
       nextRouter.replace(href, options);
     },

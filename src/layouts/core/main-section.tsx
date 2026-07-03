@@ -12,7 +12,14 @@ export type MainSectionProps = React.ComponentProps<typeof MainRoot>;
 
 export function MainSection({ children, className, sx, ...other }: MainSectionProps) {
   return (
-    <MainRoot className={mergeClasses([layoutClasses.main, className])} sx={sx} {...other}>
+    <MainRoot
+      // Target skip-link (lihat layout-section.tsx); tabIndex agar bisa difokus.
+      id="main-content"
+      tabIndex={-1}
+      className={mergeClasses([layoutClasses.main, className])}
+      sx={sx}
+      {...other}
+    >
       {children}
     </MainRoot>
   );

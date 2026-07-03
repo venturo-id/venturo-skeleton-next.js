@@ -45,6 +45,7 @@ export function LayoutSection({
         sx={sx}
         {...other}
       >
+        <SkipLink href="#main-content">Lewati ke konten utama</SkipLink>
         {headerSection}
         {children}
         {footerSection}
@@ -56,3 +57,18 @@ export function LayoutSection({
 // ----------------------------------------------------------------------
 
 const LayoutRoot = styled('div')``;
+
+// Tersembunyi sampai menerima fokus keyboard (Tab pertama di halaman).
+const SkipLink = styled('a')(({ theme }) => ({
+  ...theme.typography.subtitle2,
+  position: 'fixed',
+  top: theme.spacing(1),
+  left: theme.spacing(1),
+  zIndex: theme.zIndex.tooltip + 1,
+  padding: theme.spacing(1, 2),
+  borderRadius: theme.shape.borderRadius,
+  color: theme.vars.palette.common.white,
+  backgroundColor: theme.vars.palette.grey[900],
+  transform: 'translateY(-200%)',
+  '&:focus-visible': { transform: 'translateY(0)' },
+}));
