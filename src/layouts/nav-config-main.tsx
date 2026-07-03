@@ -8,6 +8,7 @@ export const navData = [
   { title: 'Jakarta Clients', path: '#' },
   { title: 'Ai Project', path: '#' },
   { title: 'Article', path: paths.article.root },
+  { title: 'FAQ', path: paths.support },
   {
     title: 'Career',
     path: '#',

@@ -10,7 +10,7 @@ export type ThemeConfig = {
   cssVariables: ThemeCssVariables;
   defaultMode: ThemeProviderProps<Theme>['defaultMode'];
   modeStorageKey: ThemeProviderProps<Theme>['modeStorageKey'];
-  fontFamily: Record<'primary' | 'secondary', string> & { options?: string[] };
+  fontFamily: Record<'primary' | 'secondary', string>;
   palette: Record<PaletteColorKey, PaletteColorNoChannels> & {
     common: Pick<CommonColors, 'black' | 'white'>;
     grey: {
@@ -38,10 +38,9 @@ export const themeConfig: ThemeConfig = {
    * Typography
    *************************************** */
   fontFamily: {
+    // Register custom fonts in 'src/global.css' before changing these
     primary: 'DM Sans Variable',
     secondary: 'Barlow',
-    // Register custom fonts in 'src/global.css' before adding them here
-    options: ['Public Sans Variable', 'Inter Variable', 'DM Sans Variable', 'Nunito Sans Variable'],
   },
   /** **************************************
    * Palette

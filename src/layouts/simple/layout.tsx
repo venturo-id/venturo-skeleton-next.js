@@ -22,7 +22,6 @@ import { SimpleCompactContent } from './content';
 import { MainSection } from '../core/main-section';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
-import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 
 // ----------------------------------------------------------------------
@@ -69,14 +68,11 @@ export function SimpleLayout({
             color="inherit"
             sx={{ typography: 'subtitle2' }}
           >
-            Need help?
+            FAQ
           </Link>
 
           {/** @slot Language popover */}
           <LanguagePopover data={langs} />
-
-          {/** @slot Settings button */}
-          <SettingsButton />
         </Box>
       ),
     };

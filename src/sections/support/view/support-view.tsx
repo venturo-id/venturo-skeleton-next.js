@@ -1,108 +1,53 @@
 'use client';
 
-import { useBoolean } from 'minimal-shared/hooks';
-import { useState, useEffect, useCallback } from 'react';
+import type { FaqGroup } from 'src/lib/api';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 
-import { _faqsSupport } from 'src/_mock';
-import { CONFIG } from 'src/global-config';
+// Data-only import: fallback FAQ statis yang sama dengan section home,
+// supaya halaman ini tetap berisi saat API mati.
+import { FAQS } from 'src/sections/_home/home-data';
 
-import { Iconify } from 'src/components/iconify';
-
-import { SupportNav } from '../support-nav';
 import { SupportHero } from '../support-hero';
 import { SupportContent } from '../support-content';
 
 // ----------------------------------------------------------------------
 
-const iconPath = (name: string) => `${CONFIG.assetsDir}/assets/icons/support/${name}`;
-
-const TOPICS = [
+const FALLBACK_GROUPS: FaqGroup[] = [
   {
-    title: 'Account',
-    icon: iconPath('ic-account.svg'),
-    content: <SupportContent contents={_faqsSupport.slice(0, 6)} />,
-  },
-  {
-    title: 'Payment',
-    icon: iconPath('ic-payment.svg'),
-    content: <SupportContent contents={_faqsSupport.slice(0, 5)} />,
-  },
-  {
-    title: 'Delivery',
-    icon: iconPath('ic-delivery.svg'),
-    content: <SupportContent contents={_faqsSupport.slice(0, 4)} />,
-  },
-  {
-    title: 'Product',
-    icon: iconPath('ic-package.svg'),
-    content: <SupportContent contents={_faqsSupport} />,
-  },
-  {
-    title: 'Return & refund',
-    icon: iconPath('ic-refund.svg'),
-    content: <SupportContent contents={_faqsSupport.slice(0, 6)} />,
-  },
-  {
-    title: 'Assurances',
-    icon: iconPath('ic-assurances.svg'),
-    content: <SupportContent contents={_faqsSupport.slice(0, 7)} />,
+    key: 'fallback',
+    title: 'Umum',
+    entries: FAQS.items.map((item) => ({ question: item.question, answer: item.answer })),
   },
 ];
 
-// ----------------------------------------------------------------------
+type SupportViewProps = {
+  faqGroups?: FaqGroup[] | null;
+};
 
-export function SupportView() {
-  const [topic, setTopic] = useState('Payment');
-
-  const openNavMobile = useBoolean();
-
-  const handleChangeTopic = useCallback((event: React.SyntheticEvent, newValue: string) => {
-    setTopic(newValue);
-  }, []);
-
-  useEffect(() => {
-    if (openNavMobile.value) {
-      openNavMobile.onFalse();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topic]);
+export function SupportView({ faqGroups }: SupportViewProps) {
+  const resolvedGroups = faqGroups?.length ? faqGroups : FALLBACK_GROUPS;
+  const showGroupTitles = resolvedGroups.length > 1;
 
   return (
     <>
       <SupportHero />
-      <Box
-        sx={(theme) => ({
-          px: 2,
-          py: 1.5,
-          display: { md: 'none' },
-          borderBottom: `solid 1px ${theme.vars.palette.divider}`,
-        })}
-      >
-        <IconButton onClick={openNavMobile.onTrue}>
-          <Iconify icon="carbon:menu" />
-        </IconButton>
-      </Box>
 
       <Container component="section" sx={{ pb: { xs: 10, md: 15 } }}>
-        <Typography variant="h3" sx={{ my: { xs: 3, md: 10 } }}>
-          Frequently asked questions
-        </Typography>
+        <Box sx={{ mx: 'auto', maxWidth: 860, pt: { xs: 5, md: 8 } }}>
+          {resolvedGroups.map((group) => (
+            <Box key={group.key} sx={{ '& + &': { mt: 6 } }}>
+              {showGroupTitles && (
+                <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+                  {group.title}
+                </Typography>
+              )}
 
-        <Box sx={{ gap: 10, display: 'flex' }}>
-          <SupportNav
-            data={TOPICS}
-            topic={topic}
-            open={openNavMobile.value}
-            onChangeTopic={handleChangeTopic}
-            onClose={openNavMobile.onFalse}
-          />
-
-          {TOPICS.map((item) => item.title === topic && <div key={item.title}>{item.content}</div>)}
+              <SupportContent contents={group.entries} />
+            </Box>
+          ))}
         </Box>
       </Container>
     </>

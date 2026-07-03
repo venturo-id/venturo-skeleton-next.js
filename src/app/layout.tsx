@@ -14,7 +14,6 @@ import { themeConfig, ThemeProvider, primary as primaryColor } from 'src/theme';
 import { Preconnect } from 'src/components/preconnect';
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
-import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
@@ -73,23 +72,20 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <Preconnect />
 
         <QueryProvider>
-          <SettingsProvider defaultSettings={defaultSettings}>
-            <LocalizationProvider>
-              <AppRouterCacheProvider options={{ key: 'css' }}>
-                <ThemeProvider
-                  themeOverrides={themeOverrides}
-                  modeStorageKey={themeConfig.modeStorageKey}
-                  defaultMode={themeConfig.defaultMode}
-                >
-                  <MotionLazy>
-                    <ProgressBar />
-                    <SettingsDrawer defaultSettings={defaultSettings} />
-                    {children}
-                  </MotionLazy>
-                </ThemeProvider>
-              </AppRouterCacheProvider>
-            </LocalizationProvider>
-          </SettingsProvider>
+          <LocalizationProvider>
+            <AppRouterCacheProvider options={{ key: 'css' }}>
+              <ThemeProvider
+                themeOverrides={themeOverrides}
+                modeStorageKey={themeConfig.modeStorageKey}
+                defaultMode={themeConfig.defaultMode}
+              >
+                <MotionLazy>
+                  <ProgressBar />
+                  {children}
+                </MotionLazy>
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </LocalizationProvider>
         </QueryProvider>
       </body>
     </html>

@@ -3,13 +3,9 @@ import type { BoxProps } from '@mui/material/Box';
 import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { CONFIG } from 'src/global-config';
-
-import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -35,33 +31,18 @@ export function SupportHero({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      <Typography variant="h2" sx={{ textAlign: 'center', color: 'common.white', mb: 5 }}>
-        Welcome to <br />
+      <Typography component="h1" variant="h2" sx={{ textAlign: 'center', color: 'common.white' }}>
+        Pertanyaan yang{' '}
         <Box component="span" sx={{ color: 'primary.main' }}>
-          {`ZONE `}
+          Sering Diajukan
         </Box>
-        support
       </Typography>
 
-      <TextField
-        fullWidth
-        hiddenLabel
-        placeholder="Search..."
-        sx={{ maxWidth: 360 }}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify width={24} icon="carbon:search" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-            sx: (theme) => ({
-              color: 'common.white',
-              bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.16),
-            }),
-          },
-        }}
-      />
+      <Typography
+        sx={{ mt: 3, maxWidth: 560, textAlign: 'center', color: 'common.white', opacity: 0.72 }}
+      >
+        Temukan jawaban seputar layanan, cara kerja tim, dan kerja sama dengan Venturo.
+      </Typography>
     </Box>
   );
 }

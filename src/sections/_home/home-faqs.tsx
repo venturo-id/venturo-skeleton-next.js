@@ -3,11 +3,15 @@
 import type { FaqGroup } from 'src/lib/api';
 
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
 
 import { Iconify } from 'src/components/iconify';
 
@@ -25,13 +29,17 @@ const FALLBACK_GROUPS: FaqGroup[] = [
   },
 ];
 
+// Home shows a teaser only — the full list lives at /support (FAQ page).
+const HOME_FAQ_LIMIT = 6;
+
 type HomeFaqsProps = {
   groups?: FaqGroup[] | null;
 };
 
 export function HomeFaqs({ groups }: HomeFaqsProps) {
   const resolvedGroups = groups?.length ? groups : FALLBACK_GROUPS;
-  const showGroupTitles = resolvedGroups.length > 1;
+
+  const entries = resolvedGroups.flatMap((group) => group.entries).slice(0, HOME_FAQ_LIMIT);
 
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
@@ -39,26 +47,29 @@ export function HomeFaqs({ groups }: HomeFaqsProps) {
         <HomeHeading caption={FAQS.caption} title={FAQS.title} />
 
         <Box sx={{ mx: 'auto', maxWidth: 760 }}>
-          {resolvedGroups.map((group) => (
-            <Box key={group.key} sx={{ '& + &': { mt: 5 } }}>
-              {showGroupTitles && (
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  {group.title}
-                </Typography>
-              )}
-
-              {group.entries.map((entry) => (
-                <Accordion key={entry.question}>
-                  <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
-                    <Typography variant="subtitle1">{entry.question}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography sx={{ color: 'text.secondary' }}>{entry.answer}</Typography>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </Box>
+          {entries.map((entry) => (
+            <Accordion key={entry.question}>
+              <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
+                <Typography variant="subtitle1">{entry.question}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography sx={{ color: 'text.secondary' }}>{entry.answer}</Typography>
+              </AccordionDetails>
+            </Accordion>
           ))}
+
+          <Box sx={{ mt: 5, textAlign: 'center' }}>
+            <Button
+              component={RouterLink}
+              href={paths.support}
+              size="large"
+              color="primary"
+              variant="outlined"
+              endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
+            >
+              Lihat FAQ Selengkapnya
+            </Button>
+          </Box>
         </Box>
       </Container>
     </Box>

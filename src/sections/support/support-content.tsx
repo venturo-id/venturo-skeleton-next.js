@@ -1,3 +1,5 @@
+import type { FaqEntry } from 'src/lib/api';
+
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -9,11 +11,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 // ----------------------------------------------------------------------
 
 type Props = {
-  contents: {
-    id: string;
-    question: string;
-    answer: string;
-  }[];
+  contents: FaqEntry[];
 };
 
 export function SupportContent({ contents }: Props) {
@@ -30,7 +28,7 @@ export function SupportContent({ contents }: Props) {
     <div>
       {contents.map((item) => (
         <Accordion
-          key={item.id}
+          key={item.question}
           expanded={expanded === item.question}
           onChange={handleChangeExpanded(item.question)}
           disableGutters
