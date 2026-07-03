@@ -1,4 +1,5 @@
-import ky, { HTTPError } from 'ky';
+import { z } from 'zod';
+import ky, { HTTPError, TimeoutError } from 'ky';
 
 import { CONFIG } from 'src/global-config';
 
@@ -6,15 +7,22 @@ import { CONFIG } from 'src/global-config';
 // Response envelope — see marketplace-be/docs/api-contract/README.md
 // { data, message, meta: { pagination? }, errors }
 
-export type ApiPagination = {
-  page: number;
-  limit: number;
-  total: number;
-  total_pages: number;
-};
+/** Locale yang didukung endpoint publik marketplace-be (param `locale`). */
+export type ApiLocale = 'id' | 'en';
+
+export const apiPaginationSchema = z.object({
+  page: z.number(),
+  limit: z.number(),
+  total: z.number(),
+  total_pages: z.number(),
+});
+
+export type ApiPagination = z.infer<typeof apiPaginationSchema>;
 
 export type ApiMeta = {
-  pagination?: ApiPagination;
+  // `unknown`, bukan ApiPagination: envelope tidak divalidasi di apiFetch —
+  // fetcher yang memakainya wajib mem-parse dulu (lihat getArticles).
+  pagination?: unknown;
 } | null;
 
 export type ApiEnvelope<T> = {
@@ -66,6 +74,11 @@ function getBaseUrl() {
 export const api = ky.create({
   baseUrl: getBaseUrl(),
   timeout: 10_000,
+  // Pembagian peran retry: ky me-retry di level TRANSPORT (network error /
+  // 408/413/429/5xx) hanya untuk GET yang idempoten; retry level QUERY di
+  // browser adalah urusan TanStack Query (default 3x). Default ky ikut
+  // me-retry PUT/DELETE — non-idempoten, jangan dilonggarkan tanpa sadar.
+  retry: { limit: 2, methods: ['get'] },
   // Only send the tenant header when configured — an empty `X-Company-Slug:`
   // would still be transmitted and rejected by the backend middleware.
   headers: CONFIG.companySlug ? { 'X-Company-Slug': CONFIG.companySlug } : undefined,
@@ -96,7 +109,10 @@ function cleanParams(params: ApiFetchOptions['params']) {
 
 /**
  * Typed request against the Go backend: unwraps the response envelope and
- * throws `ApiError` on non-2xx (with the backend's message + field errors).
+ * throws `ApiError` on any failure — non-2xx (status + message + field errors
+ * dari backend), timeout, dan network error (keduanya status 0). Callers cukup
+ * menangani SATU kelas error; hanya abort (pembatalan TanStack/navigasi) yang
+ * diteruskan apa adanya karena bukan kegagalan.
  *
  * NOTE: paths are relative (no leading slash) so they resolve against
  * `baseUrl` even when it carries a path prefix — use the `endpoints` map,
@@ -134,6 +150,17 @@ export async function apiFetch<T>(
         payload?.errors ?? null
       );
     }
+
+    if (error instanceof TimeoutError) {
+      throw new ApiError(0, `Request timeout: ${path}`);
+    }
+
+    // fetch melempar TypeError untuk kegagalan jaringan (DNS, refused, offline).
+    if (error instanceof TypeError) {
+      throw new ApiError(0, `Network error: ${error.message}`);
+    }
+
+    // Sisanya (terutama AbortError dari pembatalan) diteruskan apa adanya.
     throw error;
   }
 }

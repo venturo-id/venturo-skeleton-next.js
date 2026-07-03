@@ -1,3 +1,5 @@
+import type { ApiLocale } from './client';
+
 import { z } from 'zod';
 
 import { apiFetch } from './client';
@@ -9,13 +11,11 @@ import { endpoints } from './endpoints';
 // Values are free-form JSON (number, string, or object), so consumers
 // narrow the type per key.
 
-export type SiteContentLocale = 'id' | 'en';
-
 export type SiteContentMap = Record<string, unknown>;
 
 export const SITE_CONTENT_TAG = 'site-content';
 
-export async function getSiteContent(locale: SiteContentLocale = 'id'): Promise<SiteContentMap> {
+export async function getSiteContent(locale: ApiLocale = 'id'): Promise<SiteContentMap> {
   const { data } = await apiFetch<unknown>(endpoints.siteContent.map, {
     params: { locale },
     next: { revalidate: 300, tags: [SITE_CONTENT_TAG] },
@@ -69,7 +69,7 @@ export function toWhatsAppLink(value: unknown): string | null {
   return digits ? `https://wa.me/${digits}` : null;
 }
 
-export async function getWhatsAppLink(locale: SiteContentLocale = 'id'): Promise<string | null> {
+export async function getWhatsAppLink(locale: ApiLocale = 'id'): Promise<string | null> {
   const content = await getSiteContent(locale);
 
   return toWhatsAppLink(content[WHATSAPP_CONTENT_KEY]);

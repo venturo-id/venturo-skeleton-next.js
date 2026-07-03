@@ -2,8 +2,8 @@ import type { ApiPagination } from './client';
 
 import { z } from 'zod';
 
-import { apiFetch } from './client';
 import { endpoints } from './endpoints';
+import { apiFetch, apiPaginationSchema } from './client';
 
 // ----------------------------------------------------------------------
 // Schemas — mirror marketplace-be/docs/api-contract/marketplace/articles.md.
@@ -98,14 +98,20 @@ const nullableList = <T extends z.ZodTypeAny>(item: T) =>
 // from a client module into a Server Component yields client references,
 // not the real object.
 
+export const ARTICLES_PER_PAGE = 12;
+
 export const articleKeys = {
   all: ['articles'] as const,
+  // Serialize EVERY filter that reaches the request (including `limit`) —
+  // a filter left out of the key makes two different result sets share one
+  // cache entry (page 1 limit 4 vs page 1 limit 12 would collide).
   list: (filters: ArticleListFilters) =>
     [
       ...articleKeys.all,
       'list',
       {
         page: filters.page ?? 1,
+        limit: filters.limit ?? ARTICLES_PER_PAGE,
         search: filters.search ?? '',
         category: filters.category ?? '',
       },
@@ -122,11 +128,11 @@ export const articleKeys = {
 export const ARTICLES_TAG = 'articles';
 export const ARTICLE_CATEGORIES_TAG = 'article-categories';
 
-export const ARTICLES_PER_PAGE = 12;
-
 type FetchOptions = {
   /** Override the server-side Data Cache TTL (default 60s). */
   revalidate?: number;
+  /** TanStack Query passes its signal here so unmount/refetch aborts the request. */
+  signal?: AbortSignal;
 };
 
 export async function getArticles(
@@ -137,6 +143,7 @@ export async function getArticles(
 
   const { data, meta } = await apiFetch<unknown>(endpoints.articles.list, {
     params: { page, limit, search, category },
+    signal: options.signal,
     next: { revalidate: options.revalidate ?? 60, tags: [ARTICLES_TAG] },
   });
 
@@ -144,7 +151,11 @@ export async function getArticles(
 
   return {
     articles,
-    pagination: meta?.pagination ?? { page, limit, total: articles.length, total_pages: 1 },
+    // meta arrives untyped — validate before trusting (contract drift fails
+    // loudly here, same rule as `data`).
+    pagination: meta?.pagination
+      ? apiPaginationSchema.parse(meta.pagination)
+      : { page, limit, total: articles.length, total_pages: 1 },
   };
 }
 
@@ -156,10 +167,14 @@ export async function getArticle(slug: string): Promise<Article> {
   return articleSchema.parse(data);
 }
 
-export async function getArticleCategories(search?: string): Promise<ArticleCategory[]> {
+export async function getArticleCategories(
+  search?: string,
+  options: FetchOptions = {}
+): Promise<ArticleCategory[]> {
   const { data } = await apiFetch<unknown>(endpoints.articles.categories, {
     params: { search },
-    next: { revalidate: 300, tags: [ARTICLE_CATEGORIES_TAG] },
+    signal: options.signal,
+    next: { revalidate: options.revalidate ?? 300, tags: [ARTICLE_CATEGORIES_TAG] },
   });
 
   return nullableList(articleCategorySchema).parse(data);

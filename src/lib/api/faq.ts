@@ -1,3 +1,5 @@
+import type { ApiLocale } from './client';
+
 import { z } from 'zod';
 
 import { apiFetch } from './client';
@@ -32,8 +34,6 @@ const faqNodeSchema: z.ZodType<RawFaqNode> = z.lazy(() =>
 export type FaqEntry = { question: string; answer: string };
 export type FaqGroup = { key: string; title: string; entries: FaqEntry[] };
 
-export type FaqLocale = 'id' | 'en';
-
 // ----------------------------------------------------------------------
 
 /**
@@ -61,7 +61,7 @@ function flattenFaqTree(nodes: RawFaqNode[], groups: FaqGroup[] = []): FaqGroup[
 
 export const FAQ_TAG = 'faq';
 
-export async function getFaqGroups(locale: FaqLocale = 'id'): Promise<FaqGroup[]> {
+export async function getFaqGroups(locale: ApiLocale = 'id'): Promise<FaqGroup[]> {
   const { data } = await apiFetch<unknown>(endpoints.faq.list, {
     params: { locale },
     next: { revalidate: 300, tags: [FAQ_TAG] },
