@@ -11,6 +11,8 @@ import { CONFIG } from 'src/global-config';
 import { MotionContainer } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
+// Statis — tanpa sumber data. Route /maintenance (group (simple), noindex);
+// diarahkan manual (redirect infra/proxy) saat site sedang dirawat.
 
 export function MaintenanceView() {
   return (

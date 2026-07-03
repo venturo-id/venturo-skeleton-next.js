@@ -15,6 +15,11 @@ import { ArticleList } from '../article-list';
 import { ArticleFilters } from '../article-filters';
 
 // ----------------------------------------------------------------------
+// Data: TanStack Query (useArticlesQuery + useArticleCategoriesQuery) — sudah
+// di-prefetch server oleh src/app/article/page.tsx via HydrationBoundary, jadi
+// render pertama langsung berisi. Tanpa fallback statis: status loading/error/
+// kosong ditangani ArticleList & ArticleFilters.
+//
 // URL (?page&search&category) is the single source of truth: filter changes
 // navigate (replace for keystrokes, push for discrete clicks), the dynamic
 // server page re-prefetches through the Next Data Cache, and TanStack Query

@@ -10,6 +10,8 @@ Data comes from the **Go backend (marketplace-be)** through the API layer in [sr
 
 Branch model: work happens on `production`; `template-default-4.6.0` is the pristine upstream template kept for diffing.
 
+Step-by-step team recipes live in [docs/](docs/): add-a-page, add-an-api-endpoint, branding (per-client checklist), deployment (Docker/Jenkins), distribution (template-repo + cherry-pick model). Point users there for how-to questions; this file stays the source of truth for the rules themselves.
+
 ## Commands
 
 Dev server and build run on **port 8002**.

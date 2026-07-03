@@ -23,6 +23,9 @@ import { SupportHero } from '../support-hero';
 import { SupportContent } from '../support-content';
 
 // ----------------------------------------------------------------------
+// Data: RSC props dari src/app/support/page.tsx — faqGroups (FAQ API, tiap
+// sub-group jadi topik di layout dua kolom) + waLink (site-content API), ISR
+// 300 dtk. faqGroups null/kosong → FALLBACK_GROUPS; waLink null → CONTACT.wa.
 
 const FALLBACK_GROUPS: FaqGroup[] = [
   {

@@ -14,6 +14,9 @@ import { SimpleLayout } from 'src/layouts/simple';
 import { varBounce, MotionContainer } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
+// Statis — tanpa sumber data. Dirender oleh src/app/error.tsx (error boundary
+// global, termasuk gagal fetch transien di halaman ISR) dan route pratinjau
+// /error/500. Membawa SimpleLayout sendiri (error boundary di luar layout).
 
 export function Error500View() {
   return (

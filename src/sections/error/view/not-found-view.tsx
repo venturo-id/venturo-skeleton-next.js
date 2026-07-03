@@ -14,6 +14,9 @@ import { SimpleLayout } from 'src/layouts/simple';
 import { varBounce, MotionContainer } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
+// Statis — tanpa sumber data. Dirender oleh src/app/not-found.tsx (404 global)
+// dan route pratinjau /error/404. Membawa SimpleLayout sendiri karena
+// not-found.tsx global berada di luar layout segmen mana pun.
 
 export function NotFoundView() {
   return (

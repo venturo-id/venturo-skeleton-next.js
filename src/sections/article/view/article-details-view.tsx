@@ -21,6 +21,9 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { ArticleItem } from '../article-item';
 
 // ----------------------------------------------------------------------
+// Data: RSC props dari src/app/article/[slug]/page.tsx (pure RSC + ISR 300
+// dtk). `article` dijamin ada — slug tak dikenal sudah notFound() di page.
+// relatedArticles opsional: fetch gagal → [] → bagian terkait tak dirender.
 
 type ArticleDetailsViewProps = {
   article: Article;

@@ -33,3 +33,13 @@ yarn fix:all      # lint:fix + prettier — jalankan sebelum commit
 ## Arsitektur
 
 Pola berlapis `page → view → section` dan konvensi lainnya terdokumentasi di [CLAUDE.md](CLAUDE.md). Lapisan API (fetcher + zod + query keys) ada di `src/lib/api` — jadikan modul `articles.ts` sebagai referensi pola saat menambah endpoint baru.
+
+## Dokumentasi tim
+
+| Dokumen | Isi |
+|---|---|
+| [docs/recipes/add-a-page.md](docs/recipes/add-a-page.md) | Langkah menambah halaman: paths → section → view → layout → page → nav → sitemap |
+| [docs/recipes/add-an-api-endpoint.md](docs/recipes/add-an-api-endpoint.md) | Menambah endpoint API meniru pola `articles.ts` + idiom fallback |
+| [docs/branding.md](docs/branding.md) | Checklist branding per-client: logo, palette, font, konten, env |
+| [docs/deployment.md](docs/deployment.md) | Env production, Docker (port 80, `.env.prod`), k8s, Jenkins, checklist pasca-deploy |
+| [docs/distribution.md](docs/distribution.md) | Model distribusi: template repo, remote `skeleton`, alur cherry-pick perbaikan |

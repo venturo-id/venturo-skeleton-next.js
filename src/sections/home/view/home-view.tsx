@@ -16,6 +16,9 @@ import { HomeFloatingCta } from '../home-floating-cta';
 import { HomeSpecialOffer } from '../home-special-offer';
 
 // ----------------------------------------------------------------------
+// Data: RSC props dari src/app/(home)/page.tsx — faqGroups (FAQ API) + waLink
+// (site-content API), keduanya ISR 300 dtk. Prop null = backend mati → tiap
+// section jatuh ke konten statis home-data.ts; home tidak pernah pecah.
 
 type HomeViewProps = {
   faqGroups?: FaqGroup[] | null;

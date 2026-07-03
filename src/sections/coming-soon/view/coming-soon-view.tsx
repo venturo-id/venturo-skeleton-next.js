@@ -16,6 +16,9 @@ import { CONFIG } from 'src/global-config';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
+// Statis — tanpa sumber data. Route /coming-soon (group (simple), noindex).
+// Tanggal countdown & sosial media (_socials mock) di-hardcode: sesuaikan per
+// pemakaian; form email hanya placeholder visual (belum ter-wire ke backend).
 
 export function ComingSoonView() {
   const countdown = useCountdownDate(new Date('2026-08-20 20:30'));
