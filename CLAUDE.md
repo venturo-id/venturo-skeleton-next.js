@@ -31,6 +31,8 @@ yarn tsc:watch      # type-check in watch mode
 
 There is **no test framework** configured — `tsc:check` plus lint are the verification gates, enforced automatically: husky pre-commit runs lint-staged (eslint + prettier on staged files), pre-push runs `tsc:check`, and the `Jenkinsfile` runs the full gate (install → lint → fm:check → tsc:check → build) in CI. Yarn is the ONLY package manager (`packageManager: yarn@1.22.22`, Node >= 22.12, see `.nvmrc`); never use npm or commit a `package-lock.json`.
 
+**Production Docker:** `docker compose up -d --build` — multi-stage standalone image listening on port 80, env from `.env.prod` (gitignored). `NEXT_PUBLIC_*` values are baked into the bundle at image BUILD time — changing them requires a rebuild, not a restart; server-only vars (`API_URL`, `REVALIDATE_TOKEN`) also flow at runtime via compose `env_file`. `output: 'standalone'` only activates when `BUILD_STANDALONE=true` (set by the Dockerfile), so plain `yarn build`/`yarn start` behave as before.
+
 ## Architecture
 
 ### The page → view → section pattern (most important)
