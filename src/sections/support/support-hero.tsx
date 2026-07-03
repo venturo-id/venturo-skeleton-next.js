@@ -32,10 +32,11 @@ export function SupportHero({ sx, ...other }: BoxProps) {
       {...other}
     >
       <Typography component="h1" variant="h2" sx={{ textAlign: 'center', color: 'common.white' }}>
-        Pertanyaan yang{' '}
+        Selamat Datang di <br />
         <Box component="span" sx={{ color: 'primary.main' }}>
-          Sering Diajukan
-        </Box>
+          FAQ
+        </Box>{' '}
+        Venturo
       </Typography>
 
       <Typography

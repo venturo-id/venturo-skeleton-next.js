@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { getFaqGroups } from 'src/lib/api';
+import { getFaqGroups, getWhatsAppLink } from 'src/lib/api';
 
 import { SupportView } from 'src/sections/support/view/support-view';
 
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 export default async function Page() {
   // ISR via the fetch's revalidate (300s). Backend down → null → view falls
   // back to the same static FAQ copy as the home section.
-  const faqGroups = await getFaqGroups('id').catch(() => null);
+  const [faqGroups, waLink] = await Promise.all([
+    getFaqGroups('id').catch(() => null),
+    getWhatsAppLink('id').catch(() => null),
+  ]);
 
-  return <SupportView faqGroups={faqGroups} />;
+  return <SupportView faqGroups={faqGroups} waLink={waLink} />;
 }
