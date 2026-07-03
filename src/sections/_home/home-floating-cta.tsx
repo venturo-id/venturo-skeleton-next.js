@@ -17,7 +17,7 @@ export function HomeFloatingCta({ waLink }: HomeFloatingCtaProps) {
     <Link
       href={waLink ?? CONTACT.wa}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       underline="none"
       sx={{
         px: 2,

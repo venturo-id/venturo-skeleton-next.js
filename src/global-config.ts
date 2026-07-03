@@ -1,39 +1,33 @@
+import { env } from 'src/lib/env';
+
 import packageJson from '../package.json';
 
 // ----------------------------------------------------------------------
+// Semua env sudah divalidasi zod di src/lib/env.ts (fail-fast saat build bila
+// var wajib hilang). Konsumsi konfigurasi lewat objek ini, bukan process.env.
 
 export const CONFIG = {
   appName: 'Venturo',
   appVersion: packageJson.version,
-  assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
+  assetsDir: env.NEXT_PUBLIC_ASSETS_DIR,
   /** Tampilkan galeri referensi /components di build production (dev selalu tampil). */
-  showComponents: process.env.NEXT_PUBLIC_SHOW_COMPONENTS === 'true',
+  showComponents: env.NEXT_PUBLIC_SHOW_COMPONENTS,
   /** Go backend base URL (marketplace-be). */
-  apiUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+  apiUrl: env.NEXT_PUBLIC_API_URL,
   /** Tenant slug sent as X-Company-Slug on every public API call. */
-  companySlug: process.env.NEXT_PUBLIC_COMPANY_SLUG ?? '',
+  companySlug: env.NEXT_PUBLIC_COMPANY_SLUG,
   /**
    * Whitelabel client slug (level di atas company — lihat core/auth.md:
    * JWT membawa client_id + company_id). Dipakai untuk bootstrap translation
    * overrides (`GET /core/v1/translation-overrides?slug={client_slug}`) dan
    * endpoint yang me-resolve tenant via X-Client-Slug.
    */
-  clientSlug: process.env.NEXT_PUBLIC_CLIENT_SLUG ?? '',
+  clientSlug: env.NEXT_PUBLIC_CLIENT_SLUG,
   /**
    * Public site origin — canonical URLs, OG tags, sitemap, robots.
-   * Trailing slashes are stripped so `${siteUrl}/path` never yields `//`.
+   * Sudah ternormalisasi (tanpa trailing slash); production wajib di-set.
    */
-  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:8002').replace(/\/+$/, ''),
+  siteUrl: env.NEXT_PUBLIC_SITE_URL,
+  /** Server-only: override URL API internal (k8s) untuk fetch RSC/sitemap. */
+  serverApiUrl: env.API_URL,
 };
-
-// Fail the production build instead of silently publishing localhost URLs
-// to sitemap/canonical/OG (dev keeps the localhost fallback).
-if (
-  typeof window === 'undefined' &&
-  process.env.NODE_ENV === 'production' &&
-  !process.env.NEXT_PUBLIC_SITE_URL
-) {
-  throw new Error(
-    '[global-config] NEXT_PUBLIC_SITE_URL is required in production — canonical/OG/sitemap URLs would point at http://localhost:8002'
-  );
-}

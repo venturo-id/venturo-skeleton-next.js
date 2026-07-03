@@ -29,7 +29,7 @@ yarn tsc:check      # tsc --noEmit --pretty (type-check, no test runner exists)
 yarn tsc:watch      # type-check in watch mode
 ```
 
-There is **no test framework** configured — `tsc:check` plus lint are the verification gates. Yarn is the ONLY package manager (`packageManager: yarn@1.22.22`, Node >= 22.12); never use npm or commit a `package-lock.json`.
+There is **no test framework** configured — `tsc:check` plus lint are the verification gates, enforced automatically: husky pre-commit runs lint-staged (eslint + prettier on staged files), pre-push runs `tsc:check`, and the `Jenkinsfile` runs the full gate (install → lint → fm:check → tsc:check → build) in CI. Yarn is the ONLY package manager (`packageManager: yarn@1.22.22`, Node >= 22.12, see `.nvmrc`); never use npm or commit a `package-lock.json`.
 
 ## Architecture
 
@@ -77,7 +77,7 @@ Forms use **react-hook-form + Zod**. Do not use raw MUI inputs in forms — use 
 - [src/layouts/](src/layouts/) — page shells (`main`, `simple`); nav config lives in `nav-config-main.tsx`.
 - [src/components/](src/components/) — shared reusable components (iconify, carousel, image, animate, scrollbar, etc.). Each folder has an `index.ts` barrel.
 - [src/_mock/](src/_mock/) — sample data for the gallery + static fallbacks only. Real features fetch from the backend via `src/lib/api`.
-- [src/global-config.ts](src/global-config.ts) — `CONFIG` object reading all `NEXT_PUBLIC_*` env vars (never read `process.env` elsewhere; server-only `API_URL` override in `src/lib/api/client.ts` is the one exception).
+- [src/lib/env.ts](src/lib/env.ts) — the ONLY place env vars are read: zod-validated at module load, so a missing/malformed required var fails the build with a clear message. [src/global-config.ts](src/global-config.ts) exposes them as `CONFIG`; consume that, never `process.env` directly (exception: `src/middleware.ts`, which runs in its own bundle).
 
 ## SEO rules
 

@@ -35,6 +35,17 @@ export async function getSiteContent(locale: SiteContentLocale = 'id'): Promise<
 
 export const WHATSAPP_CONTENT_KEY = 'hubungi-kami';
 
+// Nilai ini dirender sebagai href CTA utama di home — URL bebas dari CMS
+// adalah open-redirect bila akun admin/tenant disusupi. Host di luar daftar
+// ini di-reject (return null → caller memakai fallback statis CONTACT.wa).
+const WHATSAPP_ALLOWED_HOSTS = new Set([
+  'wa.me',
+  'api.whatsapp.com',
+  'chat.whatsapp.com',
+  'whatsapp.com',
+  'www.whatsapp.com',
+]);
+
 export function toWhatsAppLink(value: unknown): string | null {
   const raw = typeof value === 'number' ? String(value) : value;
 
@@ -42,7 +53,14 @@ export function toWhatsAppLink(value: unknown): string | null {
 
   const trimmed = raw.trim();
 
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) {
+    try {
+      const url = new URL(trimmed);
+      return WHATSAPP_ALLOWED_HOSTS.has(url.hostname.toLowerCase()) ? trimmed : null;
+    } catch {
+      return null;
+    }
+  }
 
   // wa.me only accepts international format without symbols: strip
   // non-digits and convert a local leading 0 to the 62 country code.

@@ -77,7 +77,7 @@ export function HomeCta({ waLink }: HomeCtaProps) {
                 variant="contained"
                 href={waLink ?? CONTACT.wa}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 startIcon={<Iconify icon="solar:chat-round-call-linear" />}
                 sx={{
                   color: 'primary.dark',

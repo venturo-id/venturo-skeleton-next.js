@@ -71,7 +71,7 @@ export function HomeSpecialOffer({ waLink }: HomeSpecialOfferProps) {
                 variant="contained"
                 href={waLink ?? CONTACT.wa}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 startIcon={<Iconify icon="solar:chat-round-call-linear" />}
               >
                 {SPECIAL_OFFER.cta}

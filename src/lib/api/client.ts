@@ -46,7 +46,7 @@ export class ApiError extends Error {
  */
 function getBaseUrl() {
   const raw =
-    typeof window === 'undefined' && process.env.API_URL ? process.env.API_URL : CONFIG.apiUrl;
+    typeof window === 'undefined' && CONFIG.serverApiUrl ? CONFIG.serverApiUrl : CONFIG.apiUrl;
 
   // Standard URL resolution drops the last path segment of a slash-less base
   // (new URL('api/x', 'https://h/prefix') → https://h/api/x) — force exactly
