@@ -4,6 +4,7 @@ import eslintTs from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import { globalIgnores } from 'eslint/config';
 import pluginImport from 'eslint-plugin-import';
+import pluginSonar from 'eslint-plugin-sonarjs';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginPerfectionist from 'eslint-plugin-perfectionist';
 import pluginUnusedImports from 'eslint-plugin-unused-imports';
@@ -55,7 +56,6 @@ const reactConfig = {
     'react-hooks/preserve-manual-memoization': 0,
     // --- typescript ---
     '@typescript-eslint/no-shadow': 2,
-    '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-empty-object-type': 0,
     '@typescript-eslint/consistent-type-imports': 1,
   },
@@ -204,6 +204,76 @@ const perfectionistConfig = {
   },
 };
 
+/**
+ * @config kinerjaConfig
+ * Packages: 'eslint' (core), 'typescript-eslint', 'eslint-plugin-sonarjs'
+ * Ambang struktur code review Kinerja (kinerja.venturo.id). Semua `warn`:
+ * `yarn lint` di seluruh repo tidak gagal karena backlog kode lama, sedangkan
+ * file yang berubah dicek dengan `--max-warnings 0` (lint-staged dan
+ * `yarn lint:changed`), jadi di sana setiap warning memblokir.
+ */
+const kinerjaConfig = {
+  plugins: {
+    sonarjs: pluginSonar,
+  },
+  rules: {
+    // Fungsi <= 50 baris dari signature sampai penutup, termasuk baris kosong
+    // dan komentar; komponen fungsi React ikut dihitung.
+    'max-lines-per-function': [
+      1,
+      { max: 50, skipBlankLines: false, skipComments: false, IIFEs: true },
+    ],
+    complexity: [1, 10],
+    'max-depth': [1, 4],
+    'max-params': [1, 5],
+    'max-lines': [1, { max: 800, skipBlankLines: false, skipComments: false }],
+    'no-magic-numbers': 0,
+    '@typescript-eslint/no-magic-numbers': [
+      1,
+      {
+        ignore: [-1, 0, 1, 2],
+        ignoreArrayIndexes: true,
+        ignoreDefaultValues: true,
+        ignoreClassFieldInitialValues: true,
+        ignoreEnums: true,
+        ignoreNumericLiteralTypes: true,
+        ignoreReadonlyClassProperties: true,
+        ignoreTypeIndexes: true,
+      },
+    ],
+    'sonarjs/no-identical-functions': 1,
+    'sonarjs/no-duplicate-string': [1, { threshold: 3 }],
+    '@typescript-eslint/no-explicit-any': 1,
+    'no-console': [1, { allow: ['error'] }],
+  },
+};
+
+/** File komponen UI dinilai `ui_component_length` (300 baris), bukan 800. */
+const uiComponentConfig = {
+  files: ['**/*.{jsx,tsx}'],
+  rules: {
+    'max-lines': [1, { max: 300, skipBlankLines: false, skipComments: false }],
+  },
+};
+
+/**
+ * Literal di test, config, data contoh (`src/_mock`), dan token desain
+ * (`src/theme`) tidak dihitung magic value oleh Kinerja.
+ */
+const testAndConfigFiles = {
+  files: [
+    '**/*.{test,spec}.{js,jsx,ts,tsx}',
+    'src/test/**',
+    '*.config.{js,mjs,cjs,ts,mts}',
+    'src/_mock/**',
+    'src/theme/**',
+  ],
+  rules: {
+    '@typescript-eslint/no-magic-numbers': 0,
+    'sonarjs/no-duplicate-string': 0,
+  },
+};
+
 // ----------------------------------------------------------------------
 
 const baseConfig = {
@@ -235,6 +305,9 @@ const eslintConfig = [
   importConfig,
   unusedImportsConfig,
   perfectionistConfig,
+  kinerjaConfig,
+  uiComponentConfig,
+  testAndConfigFiles,
 ];
 
 export default eslintConfig;

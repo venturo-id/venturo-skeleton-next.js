@@ -1,2 +1,4 @@
-# Type-check sebelum push — gate utama repo ini (tidak ada test runner)
+# Gate sebelum push: type-check lalu test (vitest). Lint file yang berubah
+# sudah dijalankan pre-commit (lint-staged); gate lengkap: `yarn check:all`.
 yarn tsc:check
+yarn test
