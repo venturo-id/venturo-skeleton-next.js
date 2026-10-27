@@ -18,7 +18,7 @@ kode aplikasi (`src/**` atau `next.config.*`, selain test) menambah entri di
   berubah sejak merge-base. Base diff dari `$BASE`, `git config kinerja.base`, `origin/HEAD`, lalu
   `origin/production` (`scripts/changed-files.sh`).
 - Test runner vitest + Testing Library + jsdom (`vitest.config.mts`, `yarn test`, `yarn test:watch`)
-  dengan test untuk `getArticles`, `parseArticleListParams`, `articleKeys`,
+  dengan test untuk `apiFetch`, `getArticles`, `parseArticleListParams`, `articleKeys`,
   `toWhatsAppLink`, hook `useArticlesQuery`, dan route `POST /api/revalidate/`.
 - `yarn check:changelog` dan `yarn check:doc-sync` (`scripts/check-changelog.sh`,
   `scripts/check-doc-sync.sh`); `yarn check:all` menjalankan seluruh gate seperti CI.
@@ -33,3 +33,10 @@ kode aplikasi (`src/**` atau `next.config.*`, selain test) menambah entri di
 - lint-staged menjalankan `eslint --fix --max-warnings 0` + prettier pada semua file JS/TS yang
   di-stage (sebelumnya hanya `src/`, tanpa batas warning).
 - `.husky/pre-push` menjalankan `yarn test` setelah `yarn tsc:check`.
+
+### Fixed
+
+- `apiFetch` memetakan semua kegagalan ky 2 ke `ApiError`: `message` dan `errors` dibaca
+  dari `HTTPError.data` (body error sudah dikonsumsi ky, sehingga sebelumnya selalu jatuh ke pesan
+  generik ky dan `errors: null`), dan `NetworkError` menjadi `ApiError` status 0 (sebelumnya lolos
+  sebagai `NetworkError`).

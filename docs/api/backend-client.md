@@ -21,6 +21,18 @@ disebut di tiap bagian).
   pada network error dan status 408, 429, 500, 502, 503, 504 (413 hanya bila
   ada `Retry-After`).
 
+## Pemetaan error (`apiFetch` → `ApiError`)
+
+| Kegagalan | `status` | `message` | `errors` |
+|---|---|---|---|
+| HTTP non-2xx | status HTTP | `message` dari body envelope, atau pesan ky bila body bukan envelope | `errors` dari body, atau `null` |
+| timeout | `0` | `Request timeout: <path>` | `null` |
+| network error (DNS, refused, offline) | `0` | `Network error: …` | `null` |
+| `NEXT_PUBLIC_API_URL` / `NEXT_PUBLIC_COMPANY_SLUG` kosong | `0` | pesan konfigurasi | `null` |
+
+Abort (pembatalan TanStack Query atau navigasi) diteruskan apa adanya, bukan
+`ApiError`.
+
 ## GET api/articles
 
 Kontrak: `articles.md`. Fetcher `getArticles`, hook `useArticlesQuery`.
@@ -66,4 +78,4 @@ Key `hubungi-kami` dinormalisasi `toWhatsAppLink`: nomor telepon → link
 `wa.me`, URL hanya diterima untuk host WhatsApp, selain itu `null`. Cache:
 `revalidate` 300 dtk, tag `site-content`.
 
-**Last Updated:** 2026-10-27 (dokumen awal: endpoint yang dipanggil `src/lib/api`)
+**Last Updated:** 2026-10-27 (pemetaan error `apiFetch` → `ApiError`: `message`/`errors` dari `HTTPError.data`, `NetworkError` ky 2 berstatus 0)
