@@ -28,6 +28,8 @@ kode aplikasi (`src/**` atau `next.config.*`, selain test) menambah entri di
   200 baris `CLAUDE.md` dan `yarn check:all`.
 - Dokumen kontrak `docs/api/` (`route-handlers.md`, `backend-client.md`) dan template pull request.
 - `docs/architecture.md`, `docs/guides/quality-gates.md`, dan `.claude/rules/` per folder.
+- `.claude/settings.json` dengan marketplace `venturo-tools` serta plugin `venturo-kinerja` dan
+  mod `venturo-kinerja-hud`; `.claude/venturo-kinerja.json` (`"mode": "enforce"`).
 
 ### Changed
 
