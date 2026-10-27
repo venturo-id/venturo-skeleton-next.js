@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import ky, { HTTPError, TimeoutError } from 'ky';
+import ky, { HTTPError, NetworkError, TimeoutError } from 'ky';
 
 import { CONFIG } from 'src/global-config';
 
@@ -107,6 +107,40 @@ function cleanParams(params: ApiFetchOptions['params']) {
   return search;
 }
 
+// Bentuk body error backend; divalidasi karena `HTTPError.data` bertipe unknown.
+const errorPayloadSchema = z.object({
+  message: z.string().optional(),
+  errors: z.record(z.string(), z.array(z.string())).nullish(),
+});
+
+/**
+ * Maps a ky failure to `ApiError`. Anything else (notably the AbortError of a
+ * cancelled request) is returned as is, because it is not a failure.
+ *
+ * ky 2 consumes the error body into `HTTPError.data` (`error.response.json()`
+ * no longer works) and wraps network failures in `NetworkError`.
+ */
+function toApiError(error: unknown, path: string): unknown {
+  if (error instanceof HTTPError) {
+    const payload = errorPayloadSchema.safeParse(error.data);
+    const body = payload.success ? payload.data : {};
+
+    return new ApiError(error.response.status, body.message || error.message, body.errors ?? null);
+  }
+
+  if (error instanceof TimeoutError) {
+    return new ApiError(0, `Request timeout: ${path}`);
+  }
+
+  // NetworkError: DNS, connection refused, offline. A raw TypeError is what a
+  // runtime unknown to ky's network-error detection throws instead.
+  if (error instanceof NetworkError || error instanceof TypeError) {
+    return new ApiError(0, `Network error: ${error.message}`);
+  }
+
+  return error;
+}
+
 /**
  * Typed request against the Go backend: unwraps the response envelope and
  * throws `ApiError` on any failure — non-2xx (status + message + field errors
@@ -141,26 +175,6 @@ export async function apiFetch<T>(
       ...options,
     }).json();
   } catch (error) {
-    if (error instanceof HTTPError) {
-      const payload = (await error.response.json().catch(() => null)) as ApiEnvelope<null> | null;
-
-      throw new ApiError(
-        error.response.status,
-        payload?.message || error.message,
-        payload?.errors ?? null
-      );
-    }
-
-    if (error instanceof TimeoutError) {
-      throw new ApiError(0, `Request timeout: ${path}`);
-    }
-
-    // fetch melempar TypeError untuk kegagalan jaringan (DNS, refused, offline).
-    if (error instanceof TypeError) {
-      throw new ApiError(0, `Network error: ${error.message}`);
-    }
-
-    // Sisanya (terutama AbortError dari pembatalan) diteruskan apa adanya.
-    throw error;
+    throw toApiError(error, path);
   }
 }

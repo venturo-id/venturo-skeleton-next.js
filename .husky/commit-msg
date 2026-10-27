@@ -1,0 +1,42 @@
+# Menolak pesan commit yang akan ditolak gate review Kinerja, supaya PR tidak
+# dibiarkan tanpa nilai. Pola sama dengan kinerja-be:
+#   subject: project/domain/conventional_commit.go (ConventionalCommitRe)
+#   issue:   project/domain/space_issue_gate.go    (SpaceIssueCodeRe)
+# Subject "Merge …" dan "Revert \"…\"" buatan git dilewati, seperti di sana.
+# Husky menjalankan file ini dengan `sh -e`, jadi isinya POSIX sh.
+
+subject_re='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([^()]+\))?!?: *[^[:space:]]'
+issue_re='\[[A-Za-z][A-Za-z0-9]{1,5}-[0-9]+\]'
+
+comment_char="$(git config --get core.commentChar || echo '#')"
+[ "$comment_char" = "auto" ] && comment_char='#'
+
+# Pesan seperti yang akan di-commit: tanpa baris komentar, tanpa diff dari
+# `git commit -v`, tanpa carriage return.
+message="$(sed -e '/^# ------------------------ >8 ------------------------$/,$d' "$1" \
+  | grep -v "^${comment_char}" | tr -d '\r' || true)"
+subject="$(printf '%s\n' "$message" | sed -e '/^[[:space:]]*$/d' | head -n 1 \
+  | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+
+if [ -z "$subject" ]; then
+  exit 0 # git membatalkan pesan kosong sendiri
+fi
+case "$subject" in
+  "Merge "* | 'Revert "'*) exit 0 ;;
+esac
+
+ok=true
+if ! printf '%s\n' "$subject" | grep -qiE "$subject_re"; then
+  echo "commit-msg: subject bukan Conventional Commit: $subject" >&2
+  echo "  format: <type>(<scope>)?!?: <deskripsi>" >&2
+  echo "  type: build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test" >&2
+  ok=false
+fi
+if ! printf '%s\n' "$message" | grep -qE "$issue_re"; then
+  echo "commit-msg: tidak ada kode issue Space seperti [ABC-123] di pesan" >&2
+  ok=false
+fi
+if [ "$ok" != true ]; then
+  echo "  contoh: feat(article): filter kategori di halaman list [WEB-42]" >&2
+  exit 1
+fi

@@ -9,7 +9,7 @@ Skeleton **company-profile / marketing site** milik Venturo — di-clone per cli
 - **3 vertical siap pakai** — `home` (landing), `article` (list ber-filter + detail ISR), `support` (FAQ dua kolom dari API), plus halaman utilitas (404/500, coming-soon, maintenance, blank).
 - **Lapisan API standar** ([src/lib/api/](src/lib/api/)) — fetcher ky ber-timeout/retry, envelope backend di-unwrap, semua respons divalidasi zod, error dinormalkan jadi satu kelas `ApiError`, query keys + hooks TanStack. Setiap halaman ber-API punya **fallback statis** — site tidak pernah pecah saat backend mati.
 - **SEO lengkap** — title template terpusat, OG/Twitter image, canonical + trailing-slash policy, sitemap dinamis, robots, manifest, JSON-LD (Organization, WebSite, Article, BreadcrumbList), webhook revalidate ISR ber-token.
-- **Security & kualitas** — security headers (HSTS, nosniff, CSP report-only, dll.), env divalidasi zod saat build (fail-fast), tsconfig ketat (`noUncheckedIndexedAccess` dkk.), husky pre-commit/pre-push, Jenkinsfile CI, aksesibilitas WCAG AA (skip-link, reduced-motion, kontras).
+- **Security & kualitas** — security headers (HSTS, nosniff, CSP report-only, dll.), env divalidasi zod saat build (fail-fast), tsconfig ketat (`noUncheckedIndexedAccess` dkk.), husky pre-commit/commit-msg/pre-push, test vitest, ambang lint review Kinerja pada file yang berubah, CI GitHub Actions + Jenkinsfile, aksesibilitas WCAG AA (skip-link, reduced-motion, kontras).
 - **Galeri komponen `/components`** — living docs semua komponen bersama untuk programmer & AI; selalu tampil saat `yarn dev`, di production di-gate env flag (deploy client → 404).
 - **Docker production** — image standalone multi-stage, jalan di port 80 (lihat [docs/deployment.md](docs/deployment.md)).
 
@@ -34,19 +34,22 @@ yarn dev          # dev server (port 8002)
 yarn build        # production build
 yarn start        # serve production build (port 8002)
 
-yarn tsc:check    # type-check (tidak ada test runner; ini gate utama)
-yarn lint         # eslint
+yarn test         # vitest
+yarn tsc:check    # type-check
+yarn lint         # eslint seluruh src/ (ambang Kinerja tampil sebagai warning)
+yarn lint:changed # eslint --max-warnings 0 hanya pada file yang berubah
+yarn check:all    # gate lengkap, sama dengan CI
 yarn fix:all      # lint:fix + prettier — jalankan sebelum commit
 ```
 
-Gate otomatis: pre-commit menjalankan eslint+prettier pada file staged, pre-push menjalankan `tsc:check`, dan Jenkins menjalankan gate penuh (install → lint → format → typecheck → build).
+Gate otomatis: pre-commit menjalankan eslint (`--max-warnings 0`) + prettier pada file staged, commit-msg memeriksa format commit + kode issue Space, pre-push menjalankan `tsc:check` + `test`, GitHub Actions menjalankan `yarn check:all` di setiap PR ke `production`, dan Jenkins menjalankan install → lint → format → typecheck → build. Project turunan yang branch tujuannya bukan `production` menyetel base diff sekali: `git config kinerja.base origin/<branch-tujuan>`. Detail: [docs/guides/quality-gates.md](docs/guides/quality-gates.md).
 
 Production via Docker: `docker compose up -d --build` (env dari `.env.prod`, site di port 80).
 
 ## Struktur folder
 
 ```
-├── docs/                    # dokumentasi tim (resep, branding, deployment, distribusi)
+├── docs/                    # arsitektur, kontrak API (api/), panduan (guides/), branding, deployment, distribusi
 ├── public/
 │   └── assets/venturo/      # aset brand (webp terkompres) — ganti per client
 ├── src/
@@ -92,8 +95,12 @@ Production via Docker: `docker compose up -d --build` (env dari `.env.prod`, sit
 │   └── middleware.ts        # gate galeri /components di production
 │
 ├── Dockerfile / docker-compose.yml / .dockerignore   # deploy port 80, env .env.prod
-├── Jenkinsfile              # CI gate
-├── CLAUDE.md                # aturan arsitektur lengkap (sumber kebenaran konvensi)
+├── scripts/                 # lint-changed, check-changelog, check-doc-sync (dipakai yarn check:all + CI)
+├── .github/                 # workflow CI pull request + template PR
+├── .claude/                 # rules per folder untuk agent, settings plugin venturo-kinerja
+├── Jenkinsfile              # CI gate (build)
+├── CLAUDE.md                # instruksi agent: perintah, konvensi, gotcha, standar review Kinerja
+├── CHANGELOG.md             # Keep a Changelog — entri wajib untuk setiap perubahan kode
 └── .env.example             # template env ter-commit — copy ke .env / .env.prod
 ```
 
@@ -113,7 +120,7 @@ Tiga mode aliran data, pilih sesuai kebutuhan halaman:
 | Prefetch + HydrationBoundary | list interaktif (filter/paginasi) | /article |
 | Pure RSC + ISR | detail per-slug + `generateMetadata` | /article/[slug] |
 
-Aturan lengkap (route group, trailing slash, jebakan openGraph, aturan LCP, dsb.) ada di [CLAUDE.md](CLAUDE.md) — file itu juga yang dibaca AI assistant saat bekerja di repo ini.
+Gambaran lengkap ada di [docs/architecture.md](docs/architecture.md). Aturan untuk AI assistant ada di [CLAUDE.md](CLAUDE.md) dan `.claude/rules/` (route group, trailing slash, jebakan openGraph, aturan LCP, dsb.).
 
 ## Model branch & distribusi
 
@@ -128,8 +135,11 @@ Project client dibuat dari repo ini sebagai **GitHub template repo**, lalu menam
 
 | Dokumen | Isi |
 |---|---|
-| [docs/recipes/add-a-page.md](docs/recipes/add-a-page.md) | Langkah menambah halaman: paths → section → view → layout → page → nav → sitemap |
-| [docs/recipes/add-an-api-endpoint.md](docs/recipes/add-an-api-endpoint.md) | Menambah endpoint API meniru pola `articles.ts` + idiom fallback |
+| [docs/architecture.md](docs/architecture.md) | Lapisan page → view → section, mode aliran data, lapisan API, theme, galeri |
+| [docs/api/](docs/api/README.md) | Kontrak: route handler app ini + endpoint marketplace-be yang dipanggil |
+| [docs/guides/add-a-page.md](docs/guides/add-a-page.md) | Langkah menambah halaman: paths → section → view → layout → page → nav → sitemap |
+| [docs/guides/add-an-api-endpoint.md](docs/guides/add-an-api-endpoint.md) | Menambah endpoint API meniru pola `articles.ts` + idiom fallback |
+| [docs/guides/quality-gates.md](docs/guides/quality-gates.md) | Hook, ambang lint pada file berubah, `kinerja.base`, CHANGELOG, doc-sync, CI |
 | [docs/branding.md](docs/branding.md) | Checklist branding per-client: logo, palette, font, konten, env |
 | [docs/deployment.md](docs/deployment.md) | Env production, Docker (port 80, `.env.prod`), k8s, Jenkins, checklist pasca-deploy |
 | [docs/distribution.md](docs/distribution.md) | Model distribusi: template repo, remote `skeleton`, alur cherry-pick perbaikan |
