@@ -131,6 +131,16 @@ Kebalikannya di halaman detail ISR: HANYA 404 definitif yang jadi `notFound()`;
 kegagalan transien harus `throw` supaya ISR terus menyajikan versi terakhir yang
 sehat (lihat `fetchArticle` di `src/app/article/[slug]/page.tsx`).
 
+## Langkah 7 — test, dokumen kontrak, CHANGELOG
+
+- Test di sebelah modulnya (`<nama>.test.ts`, pola `articles.test.ts`): fetch
+  di-stub dengan `stubFetch()` dari `src/test/fetch-mock.ts`, uji parse sukses,
+  list `null` → `[]`, dan field wajib yang hilang → gagal. Hook baru diuji
+  dengan `renderHook` (pola `use-articles.test.tsx`).
+- Tambahkan endpoint ke [docs/api/backend-client.md](../api/backend-client.md)
+  dan naikkan kedua baris `**Last Updated:**` (dicek `yarn check:doc-sync`).
+- Entri di `CHANGELOG.md` bagian `## [Unreleased]` (dicek `yarn check:changelog`).
+
 ## Pembagian peran yang sudah diputuskan (jangan diubah tanpa alasan)
 
 | Lapisan | Peran |

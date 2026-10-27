@@ -4,7 +4,8 @@ Urutan bakunya: **paths.ts → section → view → layout → page → nav → 
 Contoh nyata yang dipakai di sepanjang resep ini: halaman `/support` (FAQ) — halaman
 paling lengkap karena punya data API + fallback statis.
 
-> Aturan arsitektur lengkap ada di [CLAUDE.md](../../CLAUDE.md). Resep ini versi
+> Gambaran arsitektur ada di [docs/architecture.md](../architecture.md); aturan
+> per folder dimuat agent dari `.claude/rules/`. Resep ini versi
 > langkah-demi-langkah-nya.
 
 ## 1. Daftarkan route di `src/routes/paths.ts`
@@ -105,7 +106,7 @@ export default async function Page() {
 }
 ```
 
-Pilih **mode data-flow** sesuai kebutuhan (detail di CLAUDE.md):
+Pilih **mode data-flow** sesuai kebutuhan (detail di [architecture.md](../architecture.md#aliran-data)):
 
 | Mode | Kapan | Contoh |
 |---|---|---|
@@ -144,9 +145,11 @@ Halaman yang TIDAK boleh diindex (utility/error) justru diberi
 
 ```sh
 yarn dev            # cek visual di :8002
-yarn tsc:check      # gate utama (tidak ada test runner)
+yarn check:all      # lint file berubah + format + tsc + test + CHANGELOG + doc-sync
 yarn build          # pastikan halaman ikut ter-build tanpa error
 ```
+
+Catat halaman baru di `CHANGELOG.md` bagian `## [Unreleased]`.
 
 Untuk halaman ber-API: matikan backend lalu muat ulang halaman — harus tetap
 utuh dengan konten fallback, bukan error.

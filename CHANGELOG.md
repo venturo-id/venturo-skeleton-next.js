@@ -27,12 +27,18 @@ kode aplikasi (`src/**` atau `next.config.*`, selain test) menambah entri di
 - CI GitHub Actions (`.github/workflows/ci.yml`) di setiap pull request ke `production`: batas
   200 baris `CLAUDE.md` dan `yarn check:all`.
 - Dokumen kontrak `docs/api/` (`route-handlers.md`, `backend-client.md`) dan template pull request.
+- `docs/architecture.md`, `docs/guides/quality-gates.md`, dan `.claude/rules/` per folder.
 
 ### Changed
 
 - lint-staged menjalankan `eslint --fix --max-warnings 0` + prettier pada semua file JS/TS yang
   di-stage (sebelumnya hanya `src/`, tanpa batas warning).
 - `.husky/pre-push` menjalankan `yarn test` setelah `yarn tsc:check`.
+- `CLAUDE.md` ditulis ulang (100 → 107 baris, bahasa Indonesia): perintah, konvensi, gotcha,
+  larangan, standar review Kinerja, dan delegasi sub-agent. Isi arsitektur pindah ke
+  `docs/architecture.md`, aturan per folder ke `.claude/rules/`.
+- `docs/recipes/` dipindah ke `docs/guides/`; resep halaman dan endpoint menyebut test,
+  dokumen kontrak, dan CHANGELOG.
 
 ### Fixed
 
